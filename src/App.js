@@ -2,7 +2,9 @@ import React from 'react'
 import { Route } from 'react-router-dom'
 import styled from 'styled-components'
 import Home from './Views/Home'
-import AddPoints from './Views/AddPoints'
+import Dashboard from './Views/Dashboard'
+import Reporting from './Views/Reporting'
+import Admin from './Views/Admin'
 
 const AppContainer = styled.div`
   text-align: center;
@@ -12,7 +14,9 @@ function App() {
   return (
     <AppContainer>
       <Route exact path='/' component={Home} />
-      <Route path='/add-points' component={AddPoints} />
+      <Route path='/dashboard' component={Dashboard} />
+      <Route path='/reports' component={Reporting} />
+      <Route path='/admin' component={Admin} />
     </AppContainer>
   )
 }

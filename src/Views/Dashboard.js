@@ -13,7 +13,7 @@ const Container = styled.header`
   color: white;
 `
 
-class AddPoints extends Component {
+class Dashboard extends Component {
   constructor(props) {
     super(props)
     this.state = {}
@@ -22,11 +22,11 @@ class AddPoints extends Component {
     return (
       <Container>
         <h1>Pumsy Bank System</h1>
-        <h3>Add Points</h3>
+        <h3>Dashboard</h3>
         <Link to='/'>Home</Link>
       </Container>
     )
   }
 }
 
-export default AddPoints
+export default Dashboard
