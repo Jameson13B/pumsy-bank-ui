@@ -68,6 +68,7 @@ const IconBtn = styled.div`
   border-radius: 15px;
   padding: 15px;
   width: 25%;
+  cursor: pointer;
   :hover {
     background: #444;
   }

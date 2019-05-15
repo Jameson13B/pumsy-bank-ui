@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import { Query } from 'react-apollo'
+import { USER_DASHBOARD_QUERY } from '../Apollo/Query'
+import UserSummary from '../Components/UserSummary'
 import styled from 'styled-components'
 
 class Dashboard extends Component {
@@ -10,9 +13,24 @@ class Dashboard extends Component {
   render() {
     return (
       <Container>
-        <h1>Pumsy Bank System</h1>
         <h3>Dashboard</h3>
         <Link to='/'>Home</Link>
+        <Query query={USER_DASHBOARD_QUERY}>
+          {({ loading, error, data }) => {
+            if (loading) return <div>Fetching</div>
+            if (error) return <div>Error</div>
+
+            const users = data.users
+
+            return (
+              <UserList>
+                {users.map(user => (
+                  <UserSummary user={user} />
+                ))}
+              </UserList>
+            )
+          }}
+        </Query>
       </Container>
     )
   }
@@ -29,4 +47,10 @@ const Container = styled.div`
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+`
+const UserList = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  width: 50%;
 `
