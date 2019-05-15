@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Query } from 'react-apollo'
 import { USER_DASHBOARD_QUERY } from '../Apollo/Query'
 import UserSummary from '../Components/UserSummary'
+import Icon from '../Components/Icon'
 import styled from 'styled-components'
 
 class Dashboard extends Component {
@@ -13,8 +14,12 @@ class Dashboard extends Component {
   render() {
     return (
       <Container>
-        <h3>Dashboard</h3>
-        <Link to='/'>Home</Link>
+        <Header>
+          <CstmLink to='/'>
+            <Icon icon='home' />
+          </CstmLink>
+          <h3>Dashboard</h3>
+        </Header>
         <Query query={USER_DASHBOARD_QUERY}>
           {({ loading, error, data }) => {
             if (loading) return <div>Fetching</div>
@@ -25,7 +30,7 @@ class Dashboard extends Component {
             return (
               <UserList>
                 {users.map(user => (
-                  <UserSummary user={user} />
+                  <UserSummary key={user.id} user={user} />
                 ))}
               </UserList>
             )
@@ -48,9 +53,24 @@ const Container = styled.div`
   font-size: calc(10px + 2vmin);
   color: white;
 `
+const Header = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 50%;
+`
 const UserList = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 15px;
+  padding: 0 15px;
   width: 50%;
+`
+const CstmLink = styled(Link)`
+  text-decoration: none;
+  color: white;
+  vertical-align: middle;
+  margin-right: 15px;
+  :hover {
+    color: #bbb;
+  }
 `
