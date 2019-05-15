@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { Mutation } from 'react-apollo'
+import { ADD_POINTS } from '../Apollo/Mutation'
 
 class PosBtnList extends Component {
   constructor(props) {
@@ -13,12 +15,27 @@ class PosBtnList extends Component {
       <Container>
         <h1>Positive</h1>
         <List>
-          {this.state.buttons.map(button => {
+          {this.state.buttons.map((button, i) => {
             return (
-              <Button>
-                <p>{button.title}</p>
-                <p>{button.points}</p>
-              </Button>
+              <Mutation
+                mutation={ADD_POINTS}
+                variables={{
+                  id: this.props.id,
+                  title: button.title,
+                  points: button.points
+                }}
+                key={i}>
+                {addPoints => (
+                  <Button
+                    onClick={() => {
+                      addPoints()
+                      this.props.history.replace('/dashboard')
+                    }}>
+                    <p>{button.title}</p>
+                    <p>{button.points}</p>
+                  </Button>
+                )}
+              </Mutation>
             )
           })}
         </List>

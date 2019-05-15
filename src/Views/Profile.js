@@ -6,7 +6,6 @@ import PosBtnList from '../Components/PosBtnList'
 
 const Profile = props => {
   const id = props.match.params.id
-  console.log(id)
   return (
     <Query query={USER_PROFILE} variables={{ id }}>
       {({ loading, error, data, refetch }) => {
@@ -22,7 +21,7 @@ const Profile = props => {
             </h1>
             <h1>Balance: {user.balance}</h1>
             <h1>{user.email}</h1>
-            <PosBtnList />
+            <PosBtnList id={user.id} history={props.history} />
           </Container>
         )
       }}
