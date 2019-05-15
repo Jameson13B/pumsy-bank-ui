@@ -18,7 +18,7 @@ function App() {
       <Route path='/dashboard' component={Dashboard} />
       <Route path='/reports' component={Reporting} />
       <Route path='/admin' component={Admin} />
-      <Route path='/profile' component={Profile} />
+      <Route path='/profile/:id' component={Profile} />
     </AppContainer>
   )
 }

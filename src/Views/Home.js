@@ -50,7 +50,6 @@ const Container = styled.div`
   justify-content: center;
   color: white;
   a {
-    color: white;
     margin: 30px auto;
   }
 `
@@ -79,4 +78,5 @@ const IconBtn = styled.div`
 `
 const CstmLink = styled(Link)`
   text-decoration: none;
+  color: white;
 `

@@ -9,9 +9,9 @@ const USER_DASHBOARD_QUERY = gql`
     }
   }
 `
-const USER_PROFILE_QUERY = gql`
-  {
-    user($id: String!) {
+const USER_PROFILE = gql`
+  query User($id: ID!) {
+    user(id: $id) {
       id
       name
       email
@@ -19,4 +19,4 @@ const USER_PROFILE_QUERY = gql`
     }
   }
 `
-export { USER_DASHBOARD_QUERY, USER_PROFILE_QUERY }
+export { USER_DASHBOARD_QUERY, USER_PROFILE }
