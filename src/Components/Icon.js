@@ -1,6 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 
+const Icon = props => {
+  return <I className={props.className}>{props.icon}</I>
+}
+
+export default Icon
+
 const I = styled.i`
   font-family: 'Material Icons';
   font-size: 2em;
@@ -23,9 +29,3 @@ const I = styled.i`
       format('woff2');
   }
 `
-
-const Icon = props => {
-  return <I className={props.className}>{props.icon}</I>
-}
-
-export default Icon
