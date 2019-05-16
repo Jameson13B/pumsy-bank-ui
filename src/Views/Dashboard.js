@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Query } from 'react-apollo'
 import { USER_DASHBOARD_QUERY } from '../Apollo/Query'
+import { USER_CHANGE_SUBSCRIPTION } from '../Apollo/Subscriptions'
 import UserSummary from '../Components/UserSummary'
 import Icon from '../Components/Icon'
 import styled from 'styled-components'
@@ -10,6 +11,28 @@ class Dashboard extends Component {
   constructor(props) {
     super(props)
     this.state = {}
+  }
+  _updateCacheAfterVote = (store, createVote, userId) => {
+    const data = store.readQuery({ query: USER_DASHBOARD_QUERY })
+    console.log('CACHE(Dashboard): ', data)
+    const user = data.links.find(user => user.id === userId)
+    user.votes = createVote.link.votes
+
+    store.writeQuery({ query: USER_DASHBOARD_QUERY, data })
+  }
+  _subscribeToUserChanges = subscribeToMore => {
+    subscribeToMore({
+      document: USER_CHANGE_SUBSCRIPTION,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) return prev
+        const newUser = subscriptionData.data.newUser
+        const exists = prev.users.find(({ id }) => id === newUser.id)
+        if (exists) return prev
+        return Object.assign({}, prev, {
+          users: [newUser, ...prev.users]
+        })
+      }
+    })
   }
   render() {
     return (
@@ -21,14 +44,16 @@ class Dashboard extends Component {
           <h3>Dashboard</h3>
         </Header>
         <Query query={USER_DASHBOARD_QUERY}>
-          {({ loading, error, data }) => {
+          {({ loading, error, data, subscribeToMore }) => {
             if (loading) return <div>Fetching</div>
             if (error) return <div>Error</div>
+
+            this._subscribeToUserChanges(subscribeToMore)
 
             const users = data.users
 
             return (
-              <UserList>
+              <UserList updateStoreAfterChange={this._updateCacheAfterVote}>
                 {users.map(user => (
                   <UserSummary key={user.id} user={user} />
                 ))}
