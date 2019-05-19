@@ -54,12 +54,12 @@ export default Profile
 
 const Container = styled.div`
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 90vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   color: white;
-  padding: 50px 0;
+  padding: 5vh 0;
   a {
     color: white;
     margin: 30px auto;
