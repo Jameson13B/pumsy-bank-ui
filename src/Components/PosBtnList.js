@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Mutation } from 'react-apollo'
 import { ADD_POINTS } from '../Apollo/Mutation'
+import AddNew from '../Components/AddNew'
 
 class PosBtnList extends Component {
   constructor(props) {
@@ -37,15 +38,8 @@ class PosBtnList extends Component {
               </Mutation>
             )
           })}
-          <Button
-            onClick={() => {
-              // Create new button
-              // Add to state
-              // this.props.history.replace('/dashboard')
-            }}>
-            <p>Add New</p>
-          </Button>
         </List>
+        <AddNew status='Pos' id={this.props.id} history={this.props.history} />
       </Container>
     )
   }
@@ -54,7 +48,7 @@ class PosBtnList extends Component {
 export default PosBtnList
 
 const Container = styled.div`
-  margin: 0 auto;
+  margin: 25px auto;
   width: 50%;
   height: 100%;
 `

@@ -15,15 +15,9 @@ const UserSummary = props => {
   return (
     <CustomLink to={`profile/${props.user.id}`}>
       <User data-id={props.user.id}>
-        <h1 style={{ fontSize: '3rem', margin: 'auto 25px' }}>
-          {getInitials(props.user.name)}
-        </h1>
-        <h1 style={{ flex: '3', textAlign: 'left', fontSize: '1.5rem' }}>
-          {props.user.name.substring(0, 20)}
-        </h1>
-        <p style={{ margin: 'auto 25px', fontSize: '1.5rem' }}>
-          {props.user.balance}
-        </p>
+        <Initials>{getInitials(props.user.name)}</Initials>
+        <Name>{props.user.name.substring(0, 20)}</Name>
+        <Balance>{props.user.balance}</Balance>
       </User>
     </CustomLink>
   )
@@ -48,4 +42,19 @@ const CustomLink = styled(Link)`
   color: white;
   height: 15%;
   width: 45%;
+`
+const Initials = styled.h1`
+  font-size: 3rem;
+  margin: auto 25px;
+`
+const Name = styled.h1`
+  flex: 3;
+  text-align: left;
+  font-size: 1.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+`
+const Balance = styled.p`
+  margin: auto 25px;
+  font-size: 1.5rem;
 `
