@@ -25,7 +25,7 @@ class Dashboard extends Component {
       document: USER_CHANGE_SUBSCRIPTION,
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev
-        const newUser = subscriptionData.data.newUser
+        const newUser = subscriptionData.data.dashboard
         const exists = prev.users.find(({ id }) => id === newUser.id)
         if (exists) return prev
         return Object.assign({}, prev, {
