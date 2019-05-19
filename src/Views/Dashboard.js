@@ -10,11 +10,12 @@ import styled from 'styled-components'
 class Dashboard extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      class: 'All'
+    }
   }
   _updateCacheAfterVote = (store, createVote, userId) => {
     const data = store.readQuery({ query: USER_DASHBOARD_QUERY })
-    console.log('CACHE(Dashboard): ', data)
     const user = data.links.find(user => user.id === userId)
     user.votes = createVote.link.votes
 
@@ -35,24 +36,45 @@ class Dashboard extends Component {
     })
   }
   render() {
+    console.log(this.state.classes)
     return (
-      <Container>
-        <Header>
-          <CstmLink to='/'>
-            <Icon icon='home' />
-          </CstmLink>
-          <h3>Dashboard</h3>
-        </Header>
-        <Query query={USER_DASHBOARD_QUERY}>
-          {({ loading, error, data, subscribeToMore }) => {
-            if (loading) return <div>Fetching</div>
-            if (error) return <div>Error</div>
+      <Query query={USER_DASHBOARD_QUERY}>
+        {({ loading, error, data, subscribeToMore }) => {
+          if (loading) return <div>Fetching</div>
+          if (error) return <div>Error</div>
 
-            this._subscribeToUserChanges(subscribeToMore)
+          this._subscribeToUserChanges(subscribeToMore)
 
-            const users = data.users
+          let users = data.users
+          // Create list for filter
+          let classes = []
+          users.forEach(user => {
+            if (!classes.includes(user.class)) {
+              classes.push(user.class)
+            }
+          })
 
-            return (
+          // Filter users
+          if (this.state.class !== 'All') {
+            users = users.filter(user => user.class === this.state.class)
+          }
+          return (
+            <Container>
+              <Header>
+                <CstmLink to='/'>
+                  <Icon icon='home' />
+                </CstmLink>
+                <h3>Dashboard</h3>
+                <Select
+                  onChange={e => this.setState({ class: e.target.value })}>
+                  <option value='All'>All</option>
+                  {classes.map(clas => (
+                    <option value={clas}>
+                      {clas.charAt(0).toUpperCase() + clas.slice(1)}
+                    </option>
+                  ))}
+                </Select>
+              </Header>
               <UserList updateStoreAfterChange={this._updateCacheAfterVote}>
                 {users
                   .sort((a, b) => {
@@ -62,10 +84,10 @@ class Dashboard extends Component {
                     <UserSummary key={user.id} user={user} />
                   ))}
               </UserList>
-            )
-          }}
-        </Query>
-      </Container>
+            </Container>
+          )
+        }}
+      </Query>
     )
   }
 }
@@ -88,12 +110,26 @@ const Header = styled.div`
   width: 65%;
   height: 9vh;
 `
+const Select = styled.select`
+  background: transparent;
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+  border-bottom: 1px solid white;
+  color: white;
+  font-size: 1rem;
+  margin-left: 15px;
+  option {
+    text-transform: uppercase;
+  }
+`
 const UserList = styled.div`
   border: 1px solid white;
   border-radius: 15px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
+  align-content: flex-start;
   padding: 2vh;
   width: 65%;
   height: 84vh;

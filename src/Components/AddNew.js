@@ -13,7 +13,7 @@ class AddNew extends Component {
     // Create new button
     const button = {
       title: this.state.title,
-      points: this.state.points
+      points: parseInt(this.state.points)
     }
     // Add to localStorage
     let list = JSON.parse(localStorage.getItem(`${this.props.status}BtnList`))
