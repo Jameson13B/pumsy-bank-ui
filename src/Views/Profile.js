@@ -16,11 +16,10 @@ const Profile = props => {
 
         return (
           <Container>
-            <h1>
-              {user.name} - <span>{user.id}</span>
-            </h1>
-            <h1>Balance: {user.balance}</h1>
-            <h1>{user.email}</h1>
+            <Name>{user.name}</Name>
+            <Id>{user.id}</Id>
+            <Item>Balance: {user.balance}</Item>
+            <Item>{user.email}</Item>
             <PosBtnList id={user.id} history={props.history} />
           </Container>
         )
@@ -37,10 +36,26 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   color: white;
+  padding: 50px 0;
   a {
     color: white;
     margin: 30px auto;
   }
+`
+const Name = styled.h1`
+  font-size: 2rem;
+  font-weight: bold;
+  line-height: 100%;
+`
+const Id = styled.p`
+  font-size: 0.75rem;
+  font-weight: normal;
+  font-style: italic;
+  color: #aaa;
+  margin-bottom: 15px;
+`
+const Item = styled.p`
+  margin-bottom: 15px;
+  font-size: 1.5rem;
 `

@@ -3,14 +3,27 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
 const UserSummary = props => {
+  const getInitials = name => {
+    const first = name.substring(0, 1)
+    let last = name
+      .split(' ')
+      .slice(1, 2)
+      .join('')
+      .substring(0, 1)
+    return first + last
+  }
   return (
     <CustomLink to={`profile/${props.user.id}`}>
       <User data-id={props.user.id}>
-        <h1 style={{ fontSize: '2em', margin: 'auto 25px' }}>
-          {props.user.name.substring(0, 1)}
+        <h1 style={{ fontSize: '3rem', margin: 'auto 25px' }}>
+          {getInitials(props.user.name)}
         </h1>
-        <h1 style={{ flex: '3', textAlign: 'left' }}>{props.user.name}</h1>
-        <p style={{ margin: 'auto 25px' }}>{props.user.balance}</p>
+        <h1 style={{ flex: '3', textAlign: 'left', fontSize: '1.5rem' }}>
+          {props.user.name.substring(0, 20)}
+        </h1>
+        <p style={{ margin: 'auto 25px', fontSize: '1.5rem' }}>
+          {props.user.balance}
+        </p>
       </User>
     </CustomLink>
   )
@@ -33,4 +46,6 @@ const User = styled.div`
 const CustomLink = styled(Link)`
   text-decoration: none;
   color: white;
+  height: 15%;
+  width: 45%;
 `

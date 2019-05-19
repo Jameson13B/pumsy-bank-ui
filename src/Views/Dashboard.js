@@ -54,9 +54,13 @@ class Dashboard extends Component {
 
             return (
               <UserList updateStoreAfterChange={this._updateCacheAfterVote}>
-                {users.map(user => (
-                  <UserSummary key={user.id} user={user} />
-                ))}
+                {users
+                  .sort((a, b) => {
+                    return a.name > b.name ? 1 : -1
+                  })
+                  .map(user => (
+                    <UserSummary key={user.id} user={user} />
+                  ))}
               </UserList>
             )
           }}
@@ -74,7 +78,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
 `
@@ -82,13 +85,19 @@ const Header = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 50%;
+  width: 65%;
+  height: 9vh;
 `
 const UserList = styled.div`
+  border: 1px solid white;
+  border-radius: 15px;
   display: flex;
-  flex-direction: column;
-  padding: 0 15px;
-  width: 50%;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 2vh;
+  width: 65%;
+  height: 85vh;
+  overflow: scroll;
 `
 const CstmLink = styled(Link)`
   text-decoration: none;

@@ -33,7 +33,9 @@ class Home extends Component {
           </IconBtn>
         </BtnPanel>
         <br />
-        <span>By Atomic10 Studios</span>
+        <span style={{ fontSize: '1rem', padding: '15px' }}>
+          By Atomic10 Studios
+        </span>
       </Container>
     )
   }
@@ -54,13 +56,13 @@ const Container = styled.div`
   }
 `
 const Title = styled.h1`
-  font-size: 3em;
+  font-size: 2.5rem;
   margin: 30px auto;
 `
 const BtnPanel = styled.div`
   display: flex;
   justify-content: space-evenly;
-  width: 750px;
+  width: 65%;
 `
 const IconBtn = styled.div`
   border: 1px solid white;
@@ -79,4 +81,5 @@ const IconBtn = styled.div`
 const CstmLink = styled(Link)`
   text-decoration: none;
   color: white;
+  font-size: 1.25rem;
 `

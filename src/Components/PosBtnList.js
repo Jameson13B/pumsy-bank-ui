@@ -61,7 +61,7 @@ const Button = styled.li`
   margin: 15px;
   cursor: pointer;
   width: 30%;
-  font-size: 1em;
+  font-size: 1rem;
   :hover {
     background: #444;
   }
