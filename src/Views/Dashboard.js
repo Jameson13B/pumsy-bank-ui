@@ -36,7 +36,6 @@ class Dashboard extends Component {
     })
   }
   render() {
-    console.log(this.state.classes)
     return (
       <Query query={USER_DASHBOARD_QUERY}>
         {({ loading, error, data, subscribeToMore }) => {
@@ -68,8 +67,8 @@ class Dashboard extends Component {
                 <Select
                   onChange={e => this.setState({ class: e.target.value })}>
                   <option value='All'>All</option>
-                  {classes.map(clas => (
-                    <option value={clas}>
+                  {classes.map((clas, i) => (
+                    <option value={clas} key={i}>
                       {clas.charAt(0).toUpperCase() + clas.slice(1)}
                     </option>
                   ))}
