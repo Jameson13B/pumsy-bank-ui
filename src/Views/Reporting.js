@@ -12,7 +12,7 @@ const Reporting = () => {
         </CstmLink>
         <h3>Reporting</h3>
       </Header>
-      <h1>Reporting</h1>
+      <Body>Reporting</Body>
     </Container>
   )
 }
@@ -25,7 +25,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
 `
@@ -33,7 +32,8 @@ const Header = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 75%;
+  width: 65%;
+  height: 9vh;
 `
 const CstmLink = styled(Link)`
   text-decoration: none;
@@ -43,4 +43,11 @@ const CstmLink = styled(Link)`
   :hover {
     color: #bbb;
   }
+`
+const Body = styled.div`
+  border: 1px solid white;
+  border-radius: 15px;
+  height: 84vh
+  padding: 2vh;
+  width: 65%;
 `

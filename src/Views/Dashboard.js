@@ -96,8 +96,8 @@ const UserList = styled.div`
   justify-content: space-evenly;
   padding: 2vh;
   width: 65%;
-  height: 85vh;
-  overflow: scroll;
+  height: 84vh;
+  overflow: auto;
 `
 const CstmLink = styled(Link)`
   text-decoration: none;

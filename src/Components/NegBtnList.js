@@ -3,11 +3,11 @@ import styled from 'styled-components'
 import { Mutation } from 'react-apollo'
 import { ADD_POINTS } from '../Apollo/Mutation'
 
-class PosBtnList extends Component {
+class NegBtnList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      buttons: JSON.parse(localStorage.getItem('PosBtnList')) || []
+      buttons: JSON.parse(localStorage.getItem('NegBtnList')) || []
     }
   }
   render() {
@@ -43,7 +43,7 @@ class PosBtnList extends Component {
   }
 }
 
-export default PosBtnList
+export default NegBtnList
 
 const Container = styled.div`
   margin: 0 auto;
