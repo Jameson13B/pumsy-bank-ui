@@ -110,7 +110,7 @@ const Header = styled.div`
   height: 9vh;
 `
 const Select = styled.select`
-  background: transparent;
+  background: #444;
   border-top: 0;
   border-right: 0;
   border-left: 0;
@@ -118,6 +118,9 @@ const Select = styled.select`
   color: white;
   font-size: 1rem;
   margin-left: 15px;
+  :focus {
+    outline: none;
+  }
   option {
     text-transform: uppercase;
   }
