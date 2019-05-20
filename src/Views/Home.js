@@ -31,6 +31,12 @@ class Home extends Component {
               <Icon icon='face' />
             </CstmLink>
           </IconBtn>
+          <IconBtn>
+            <CstmLink to='/store'>
+              <p>Store</p>
+              <Icon icon='store' />
+            </CstmLink>
+          </IconBtn>
         </BtnPanel>
         <br />
         <span style={{ fontSize: '1rem', padding: '15px' }}>
@@ -68,7 +74,7 @@ const IconBtn = styled.div`
   border: 1px solid white;
   border-radius: 15px;
   padding: 15px;
-  width: 25%;
+  width: 20%;
   cursor: pointer;
   :hover {
     background: #444;
