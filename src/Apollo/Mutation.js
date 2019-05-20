@@ -8,4 +8,12 @@ const ADD_POINTS = gql`
     }
   }
 `
-export { ADD_POINTS }
+const REMOVE_POINTS = gql`
+  mutation($id: ID!, $title: String!, $points: Int!) {
+    removePoints(id: $id, description: $title, points: $points) {
+      name
+      balance
+    }
+  }
+`
+export { ADD_POINTS, REMOVE_POINTS }

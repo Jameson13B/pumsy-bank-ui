@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Mutation } from 'react-apollo'
-import { ADD_POINTS } from '../Apollo/Mutation'
+import { REMOVE_POINTS } from '../Apollo/Mutation'
 import AddNew from '../Components/AddNew'
 
 class NegBtnList extends Component {
@@ -18,7 +18,7 @@ class NegBtnList extends Component {
           {this.state.buttons.map((button, i) => {
             return (
               <Mutation
-                mutation={ADD_POINTS}
+                mutation={REMOVE_POINTS}
                 variables={{
                   id: this.props.id,
                   title: button.title,
