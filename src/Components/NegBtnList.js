@@ -49,8 +49,7 @@ export default NegBtnList
 
 const Container = styled.div`
   margin: 25px auto;
-  width: 50%;
-  height: 100%;
+  width: 75%;
 `
 const List = styled.ul`
   border: 1px solid white;

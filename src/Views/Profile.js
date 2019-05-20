@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 import { Query } from 'react-apollo'
 import { USER_PROFILE } from '../Apollo/Query'
 import PosBtnList from '../Components/PosBtnList'
 import NegBtnList from '../Components/NegBtnList'
+import Icon from '../Components/Icon'
 
 class Profile extends Component {
   constructor(props) {
@@ -27,21 +29,29 @@ class Profile extends Component {
 
           return (
             <Container>
-              <Name>{user.name}</Name>
-              <Id>{user.id}</Id>
-              <Item>Balance: {user.balance}</Item>
-              <Item>{user.email}</Item>
-              <BtnPanel>
-                <Btn onClick={() => this.handleTogglePos(true)}>Positive</Btn>
-                <Btn onClick={() => this.handleTogglePos(false)}>
-                  Needs Improvement
-                </Btn>
-              </BtnPanel>
-              {this.state.positive ? (
-                <PosBtnList id={user.id} history={this.props.history} />
-              ) : (
-                <NegBtnList id={user.id} history={this.props.history} />
-              )}
+              <Header>
+                <CstmLink to='/'>
+                  <Icon icon='home' />
+                </CstmLink>
+                <h3>Profile</h3>
+              </Header>
+              <Body>
+                <Name>{user.name}</Name>
+                <Id>{user.id}</Id>
+                <Item>Balance: {user.balance}</Item>
+                <Item>{user.email}</Item>
+                <BtnPanel>
+                  <Btn onClick={() => this.handleTogglePos(true)}>Positive</Btn>
+                  <Btn onClick={() => this.handleTogglePos(false)}>
+                    Needs Improvement
+                  </Btn>
+                </BtnPanel>
+                {this.state.positive ? (
+                  <PosBtnList id={user.id} history={this.props.history} />
+                ) : (
+                  <NegBtnList id={user.id} history={this.props.history} />
+                )}
+              </Body>
             </Container>
           )
         }}
@@ -54,16 +64,35 @@ export default Profile
 
 const Container = styled.div`
   background-color: #282c34;
-  min-height: 90vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-size: calc(10px + 2vmin);
   color: white;
-  padding: 5vh 0;
-  a {
-    color: white;
-    margin: 30px auto;
+`
+const Header = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 65%;
+  height: 9vh;
+`
+const CstmLink = styled(Link)`
+  text-decoration: none;
+  color: white;
+  vertical-align: middle;
+  margin-right: 15px;
+  :hover {
+    color: #bbb;
   }
+`
+const Body = styled.div`
+  border: 1px solid white;
+  border-radius: 15px;
+  height: 84vh
+  padding: 2vh;
+  width: 65%;
 `
 const Name = styled.h1`
   font-size: 2rem;
@@ -75,7 +104,7 @@ const Id = styled.p`
   font-weight: normal;
   font-style: italic;
   color: #aaa;
-  margin-bottom: 15px;
+  margin: 5px 0 15px 0;
 `
 const Item = styled.p`
   margin-bottom: 15px;
@@ -84,6 +113,7 @@ const Item = styled.p`
 const BtnPanel = styled.div`
   display: flex;
   width: 25%;
+  margin: 0 auto;
 `
 const Btn = styled.div`
   border: 1px solid white;
