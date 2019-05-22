@@ -30,8 +30,8 @@ class Profile extends Component {
           return (
             <Container>
               <Header>
-                <CstmLink to='/'>
-                  <Icon icon='home' />
+                <CstmLink to='/dashboard'>
+                  <Icon icon='arrow_back' />
                 </CstmLink>
                 <h3>Profile</h3>
               </Header>
