@@ -11,6 +11,20 @@ class PosBtnList extends Component {
       buttons: JSON.parse(localStorage.getItem('PosBtnList')) || []
     }
   }
+  handleLongPress = e => {
+    // Create delete function inside timer
+    const index = e.currentTarget.dataset.index
+    this.buttonPressTimer = setTimeout(() => this.deleteButton(index), 2000)
+  }
+  deleteButton = i => {
+    const list = JSON.parse(localStorage.getItem('PosBtnList'))
+    list.splice(i, 1)
+    localStorage.setItem('PosBtnList', JSON.stringify(list))
+    this.setState({ buttons: list })
+  }
+  handleLongRelease = () => {
+    clearTimeout(this.buttonPressTimer)
+  }
   render() {
     return (
       <Container>
@@ -27,6 +41,12 @@ class PosBtnList extends Component {
                 key={i}>
                 {addPoints => (
                   <Button
+                    data-index={i}
+                    onTouchStart={this.handleLongPress}
+                    onTouchEnd={this.handleLongRelease}
+                    onMouseDown={this.handleLongPress}
+                    onMouseUp={this.handleLongRelease}
+                    onMouseLeave={this.handleLongRelease}
                     onClick={() => {
                       addPoints()
                       this.props.history.replace('/dashboard')

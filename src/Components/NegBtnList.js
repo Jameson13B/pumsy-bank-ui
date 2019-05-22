@@ -11,6 +11,20 @@ class NegBtnList extends Component {
       buttons: JSON.parse(localStorage.getItem('NegBtnList')) || []
     }
   }
+  handleLongPress = e => {
+    // Create delete function inside timer
+    const index = e.currentTarget.dataset.index
+    this.buttonPressTimer = setTimeout(() => this.deleteButton(index), 2000)
+  }
+  deleteButton = i => {
+    const list = JSON.parse(localStorage.getItem('NegBtnList'))
+    list.splice(i, 1)
+    localStorage.setItem('NegBtnList', JSON.stringify(list))
+    this.setState({ buttons: list })
+  }
+  handleLongRelease = () => {
+    clearTimeout(this.buttonPressTimer)
+  }
   render() {
     return (
       <Container>
@@ -25,10 +39,16 @@ class NegBtnList extends Component {
                   points: button.points
                 }}
                 key={i}>
-                {addPoints => (
+                {removePoints => (
                   <Button
+                    data-index={i}
+                    onTouchStart={this.handleLongPress}
+                    onTouchEnd={this.handleLongRelease}
+                    onMouseDown={this.handleLongPress}
+                    onMouseUp={this.handleLongRelease}
+                    onMouseLeave={this.handleLongRelease}
                     onClick={() => {
-                      addPoints()
+                      removePoints()
                       this.props.history.replace('/dashboard')
                     }}>
                     <p>{button.title}</p>
