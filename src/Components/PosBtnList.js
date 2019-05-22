@@ -17,13 +17,16 @@ class PosBtnList extends Component {
     this.buttonPressTimer = setTimeout(() => this.deleteButton(index), 2000)
   }
   deleteButton = i => {
-    const list = JSON.parse(localStorage.getItem('PosBtnList'))
+    const list = this.state.buttons.slice()
     list.splice(i, 1)
     localStorage.setItem('PosBtnList', JSON.stringify(list))
     this.setState({ buttons: list })
   }
   handleLongRelease = () => {
     clearTimeout(this.buttonPressTimer)
+  }
+  handleListUpdate = list => {
+    this.setState({ buttons: list })
   }
   render() {
     return (
@@ -59,7 +62,11 @@ class PosBtnList extends Component {
             )
           })}
         </List>
-        <AddNew status='Pos' id={this.props.id} history={this.props.history} />
+        <AddNew
+          status='Pos'
+          id={this.props.id}
+          handleListUpdate={this.handleListUpdate}
+        />
       </Container>
     )
   }

@@ -20,7 +20,7 @@ class AddNew extends Component {
     list.push(button)
     localStorage.setItem(`${this.props.status}BtnList`, JSON.stringify(list))
     this.setState({ points: '', title: '' })
-    this.props.history.push(`${this.props.id}`)
+    this.props.handleListUpdate(list)
   }
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value })
@@ -36,12 +36,14 @@ class AddNew extends Component {
           value={this.state.points}
           placeholder='Points'
           onChange={this.handleChange}
+          autoComplete='off'
         />
         <Input
           name='title'
           value={this.state.title}
           placeholder='Title'
           onChange={this.handleChange}
+          autoComplete='off'
         />
       </Container>
     )
@@ -50,7 +52,7 @@ class AddNew extends Component {
 
 export default AddNew
 
-const Container = styled.div`
+const Container = styled.form`
   display: flex;
   padding: 25px 15px;
 `
