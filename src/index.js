@@ -37,8 +37,6 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 })
 
-require('dotenv').config()
-
 ReactDOM.render(
   <ApolloProvider client={client}>
     <Router>
