@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { Mutation } from 'react-apollo'
-import { CREATE_USER } from '../Apollo/Mutation'
+import { Mutation, Query } from 'react-apollo'
+import { CHANGE_PASSWORD } from '../Apollo/Mutation'
+import { USER_ADMIN } from '../Apollo/Query'
 
 class AdminUpdate extends Component {
   constructor(props) {
@@ -14,28 +15,57 @@ class AdminUpdate extends Component {
     }
   }
   handleInputChange = e => this.setState({ [e.target.name]: e.target.value })
+  getInitials = name => {
+    const first = name.substring(0, 1)
+    let last = name
+      .split(' ')
+      .slice(1, 2)
+      .join('')
+      .substring(0, 1)
+    return first + last
+  }
   render() {
     return (
-      <Mutation
-        mutation={CREATE_USER}
-        variables={{
-          name: this.state.name,
-          email: this.state.email,
-          password: this.state.password
-        }}>
-        {updateUser => (
-          <Container>
-            <List>
-              <h1>Update</h1>
-              <h1>Left</h1>
-            </List>
+      <Container>
+        {/* List of Users */}
+        <Query query={USER_ADMIN}>
+          {({ loading, error, data }) => {
+            if (loading) return <div>Fetching</div>
+            if (error) return <div>Error</div>
+
+            let users = data.users
+
+            return (
+              <List>
+                {users.map(user => (
+                  <User
+                    key={user.id}
+                    id={user.id}
+                    name={user.name}
+                    onClick={this.handleUserSelect}>
+                    <Initials>{this.getInitials(user.name)}</Initials>
+                    <Name>{user.name.substring(0, 20)}</Name>
+                  </User>
+                ))}
+              </List>
+            )
+          }}
+        </Query>
+        {/* Form to Delete */}
+        <Mutation
+          mutation={CHANGE_PASSWORD}
+          variables={{
+            id: this.state.id,
+            password: this.state.password
+          }}>
+          {updateUser => (
             <Form
               onSubmit={e => {
                 e.preventDefault()
                 updateUser()
                 this.setState({ name: '', email: '', password: '' })
               }}
-              autoComplete='nope'>
+              autoComplete='off'>
               <Input
                 name='name'
                 type='text'
@@ -66,9 +96,9 @@ class AdminUpdate extends Component {
               />
               <CreateBtn type='submit'>Update</CreateBtn>
             </Form>
-          </Container>
-        )}
-      </Mutation>
+          )}
+        </Mutation>
+      </Container>
     )
   }
 }
@@ -81,8 +111,34 @@ const Container = styled.div`
   height: 89%;
 `
 
-const List = styled.div`
+const List = styled.ul`
   flex: 1.25;
+  list-style: none;
+  overflow: auto;
+`
+const User = styled.li`
+  display: flex;
+  border: 1px solid white;
+  border-radius: 15px;
+  padding: 2%;
+  margin: 5% 0;
+  cursor: pointer;
+  line-height: 200%;
+  width: 90%;
+  :hover {
+    background: #444;
+  }
+`
+const Initials = styled.h1`
+  font-size: 3rem;
+  margin: auto 25px;
+`
+const Name = styled.h1`
+  flex: 3;
+  text-align: left;
+  font-size: 1.5rem;
+  white-space: nowrap;
+  overflow: hidden;
 `
 const Form = styled.form`
   flex: 1;
