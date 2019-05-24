@@ -1,30 +1,68 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { Mutation } from 'react-apollo'
+import { Mutation, Query } from 'react-apollo'
 import { CHANGE_PASSWORD } from '../Apollo/Mutation'
+import { USER_ADMIN } from '../Apollo/Query'
 
 class AdminPassword extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      password: ''
+      password: '',
+      name: '',
+      id: ''
     }
   }
   handleInputChange = e => this.setState({ [e.target.name]: e.target.value })
+  getInitials = name => {
+    const first = name.substring(0, 1)
+    let last = name
+      .split(' ')
+      .slice(1, 2)
+      .join('')
+      .substring(0, 1)
+    return first + last
+  }
+  handleUserSelect = e =>
+    this.setState({
+      id: e.currentTarget.id,
+      name: e.currentTarget.getAttribute('name')
+    })
   render() {
     return (
-      <Mutation
-        mutation={CHANGE_PASSWORD}
-        variables={{
-          // id: FINISH THIS
-          password: this.state.password
-        }}>
-        {changePassword => (
-          <Container>
-            <List>
-              <h1>Password List</h1>
-              <h1>Left</h1>
-            </List>
+      <Container>
+        {/* List of Users */}
+        <Query query={USER_ADMIN}>
+          {({ loading, error, data }) => {
+            if (loading) return <div>Fetching</div>
+            if (error) return <div>Error</div>
+
+            let users = data.users
+
+            return (
+              <List>
+                {users.map(user => (
+                  <User
+                    key={user.id}
+                    id={user.id}
+                    name={user.name}
+                    onClick={this.handleUserSelect}>
+                    <Initials>{this.getInitials(user.name)}</Initials>
+                    <Name>{user.name.substring(0, 20)}</Name>
+                  </User>
+                ))}
+              </List>
+            )
+          }}
+        </Query>
+        {/* Form to Delete */}
+        <Mutation
+          mutation={CHANGE_PASSWORD}
+          variables={{
+            id: this.state.id,
+            password: this.state.password
+          }}>
+          {changePassword => (
             <Form
               onSubmit={e => {
                 e.preventDefault()
@@ -32,6 +70,8 @@ class AdminPassword extends Component {
                 this.setState({ password: '' })
               }}
               autoComplete='off'>
+              <h1>{this.state.name}</h1>
+              <br />
               <Input
                 name='password'
                 type='password'
@@ -41,9 +81,9 @@ class AdminPassword extends Component {
               />
               <ChangeBtn type='submit'>Update</ChangeBtn>
             </Form>
-          </Container>
-        )}
-      </Mutation>
+          )}
+        </Mutation>
+      </Container>
     )
   }
 }
@@ -51,13 +91,38 @@ class AdminPassword extends Component {
 export default AdminPassword
 
 const Container = styled.div`
-  padding: 20px;
   display: flex;
-  height: 89%;
+  height: 90%;
 `
 
-const List = styled.div`
+const List = styled.ul`
   flex: 1.25;
+  list-style: none;
+  overflow: auto;
+`
+const User = styled.li`
+  display: flex;
+  border: 1px solid white;
+  border-radius: 15px;
+  padding: 2%;
+  margin: 5% 0;
+  cursor: pointer;
+  line-height: 200%;
+  width: 90%;
+  :hover {
+    background: #444;
+  }
+`
+const Initials = styled.h1`
+  font-size: 3rem;
+  margin: auto 25px;
+`
+const Name = styled.h1`
+  flex: 3;
+  text-align: left;
+  font-size: 1.5rem;
+  white-space: nowrap;
+  overflow: hidden;
 `
 const Form = styled.form`
   flex: 1;

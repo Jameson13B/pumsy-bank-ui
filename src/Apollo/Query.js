@@ -10,6 +10,14 @@ const USER_DASHBOARD_QUERY = gql`
     }
   }
 `
+const USER_ADMIN = gql`
+  {
+    users {
+      id
+      name
+    }
+  }
+`
 const USER_PROFILE = gql`
   query User($id: ID!) {
     user(id: $id) {
@@ -20,4 +28,4 @@ const USER_PROFILE = gql`
     }
   }
 `
-export { USER_DASHBOARD_QUERY, USER_PROFILE }
+export { USER_DASHBOARD_QUERY, USER_ADMIN, USER_PROFILE }
