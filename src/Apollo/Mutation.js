@@ -28,7 +28,7 @@ const CREATE_USER = gql`
   }
 `
 const CHANGE_PASSWORD = gql`
-  mutation($id: String!, $password: String!) {
+  mutation($id: ID!, $password: String!) {
     changePassword(id: $id, password: $password)
   }
 `

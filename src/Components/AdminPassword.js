@@ -10,7 +10,8 @@ class AdminPassword extends Component {
     this.state = {
       password: '',
       name: '',
-      id: ''
+      id: '',
+      feedback: null
     }
   }
   handleInputChange = e => this.setState({ [e.target.name]: e.target.value })
@@ -26,7 +27,9 @@ class AdminPassword extends Component {
   handleUserSelect = e =>
     this.setState({
       id: e.currentTarget.id,
-      name: e.currentTarget.getAttribute('name')
+      name: e.currentTarget.getAttribute('name'),
+      feedback: null,
+      password: ''
     })
   render() {
     return (
@@ -61,8 +64,11 @@ class AdminPassword extends Component {
           variables={{
             id: this.state.id,
             password: this.state.password
-          }}>
-          {changePassword => (
+          }}
+          onCompleted={data =>
+            this.setState({ feedback: data.changePassword })
+          }>
+          {(changePassword, { data }) => (
             <Form
               onSubmit={e => {
                 e.preventDefault()
@@ -71,7 +77,9 @@ class AdminPassword extends Component {
               }}
               autoComplete='off'>
               <h1>{this.state.name}</h1>
-              <br />
+              {this.state.feedback ? (
+                <Feedback>{this.state.feedback}</Feedback>
+              ) : null}
               <Input
                 name='password'
                 type='password'
@@ -131,6 +139,11 @@ const Form = styled.form`
   justify-content: center;
   height: 100%;
 `
+const Feedback = styled.p`
+  color: red;
+  font-size: 1rem;
+  margin-top: 5px;
+`
 const Input = styled.input`
   background: transparent;
   border-top: 0;
@@ -139,7 +152,7 @@ const Input = styled.input`
   border-bottom: 1px solid white;
   color: white;
   font-size: 1.25rem;
-  margin: 15px 0;
+  margin: 20px 0 15px 0;
   :focus {
     outline: none;
   }
