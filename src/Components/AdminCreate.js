@@ -9,7 +9,8 @@ class AdminCreate extends Component {
     this.state = {
       name: '',
       email: '',
-      password: ''
+      password: '',
+      feedback: null
     }
   }
   handleInputChange = e => this.setState({ [e.target.name]: e.target.value })
@@ -21,7 +22,12 @@ class AdminCreate extends Component {
           name: this.state.name,
           email: this.state.email,
           password: this.state.password
-        }}>
+        }}
+        onCompleted={data =>
+          this.setState({
+            feedback: `Succeessfully created: ${data.createUser.user.name}`
+          })
+        }>
         {createUser => (
           <Container
             onSubmit={e => {
@@ -52,6 +58,9 @@ class AdminCreate extends Component {
               onChange={this.handleInputChange}
             />
             <CreateBtn type='submit'>Create</CreateBtn>
+            {this.state.feedback ? (
+              <Feedback>{this.state.feedback}</Feedback>
+            ) : null}
           </Container>
         )}
       </Mutation>
@@ -92,4 +101,9 @@ const CreateBtn = styled.button`
   :hover {
     background: #444;
   }
+`
+const Feedback = styled.p`
+  color: red;
+  font-size: 1rem;
+  margin-top: 5px;
 `
