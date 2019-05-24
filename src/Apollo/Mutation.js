@@ -16,4 +16,20 @@ const REMOVE_POINTS = gql`
     }
   }
 `
-export { ADD_POINTS, REMOVE_POINTS }
+const CREATE_USER = gql`
+  mutation($name: String!, $email: String!, $password: String!) {
+    createUser(name: $name, email: $email, password: $password) {
+      token
+      user {
+        id
+        name
+      }
+    }
+  }
+`
+const CHANGE_PASSWORD = gql`
+  mutation($id: String!, $password: String!) {
+    changePassword(id: $id, password: $password)
+  }
+`
+export { ADD_POINTS, REMOVE_POINTS, CREATE_USER, CHANGE_PASSWORD }

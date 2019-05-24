@@ -11,7 +11,7 @@ class Admin extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      view: 'create'
+      view: props.view || 'create'
     }
   }
   handleToggleView = e => this.setState({ view: e.target.getAttribute('name') })

@@ -77,6 +77,9 @@ const Input = styled.input`
   flex: 1;
   font-size: 1rem;
   margin-left: 25px;
+  :focus {
+    outline: none;
+  }
   :last-child {
     flex: 3;
   }
