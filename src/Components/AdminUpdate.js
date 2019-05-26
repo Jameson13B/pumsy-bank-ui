@@ -73,7 +73,6 @@ class AdminUpdate extends Component {
             class: this.state.class
           }}
           onCompleted={data => {
-            console.log(data)
             this.setState({
               feedback: `Succeessfully updated: ${data.updateUser.name}`,
               id: '',
@@ -138,7 +137,6 @@ const Container = styled.div`
   display: flex;
   height: 89%;
 `
-
 const List = styled.ul`
   flex: 1.25;
   list-style: none;

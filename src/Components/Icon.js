@@ -2,7 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Icon = props => {
-  return <I className={props.className}>{props.icon}</I>
+  return (
+    <I className={props.className} onClick={props.onClick}>
+      {props.icon}
+    </I>
+  )
 }
 
 export default Icon

@@ -51,9 +51,24 @@ const UPDATE_USER = gql`
     }
   }
 `
+const DELETE_USER = gql`
+  mutation($id: ID!) {
+    deleteUser(id: $id) {
+      id
+      name
+    }
+  }
+`
 const CHANGE_PASSWORD = gql`
   mutation($id: ID!, $password: String!) {
     changePassword(id: $id, password: $password)
   }
 `
-export { ADD_POINTS, REMOVE_POINTS, CREATE_USER, UPDATE_USER, CHANGE_PASSWORD }
+export {
+  ADD_POINTS,
+  REMOVE_POINTS,
+  CREATE_USER,
+  UPDATE_USER,
+  DELETE_USER,
+  CHANGE_PASSWORD
+}
