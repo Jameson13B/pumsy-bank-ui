@@ -15,6 +15,9 @@ const USER_ADMIN = gql`
     users {
       id
       name
+      email
+      parentEmail
+      class
     }
   }
 `

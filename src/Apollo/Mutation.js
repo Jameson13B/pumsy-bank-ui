@@ -27,9 +27,33 @@ const CREATE_USER = gql`
     }
   }
 `
+const UPDATE_USER = gql`
+  mutation(
+    $id: ID!
+    $name: String
+    $email: String
+    $parentEmail: String
+    $class: String
+  ) {
+    updateUser(
+      id: $id
+      name: $name
+      email: $email
+      parentEmail: $parentEmail
+      class: $class
+    ) {
+      id
+      name
+      email
+      parentEmail
+      balance
+      class
+    }
+  }
+`
 const CHANGE_PASSWORD = gql`
   mutation($id: ID!, $password: String!) {
     changePassword(id: $id, password: $password)
   }
 `
-export { ADD_POINTS, REMOVE_POINTS, CREATE_USER, CHANGE_PASSWORD }
+export { ADD_POINTS, REMOVE_POINTS, CREATE_USER, UPDATE_USER, CHANGE_PASSWORD }

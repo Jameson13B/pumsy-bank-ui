@@ -1,20 +1,31 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Mutation, Query } from 'react-apollo'
-import { CHANGE_PASSWORD } from '../Apollo/Mutation'
+import { UPDATE_USER } from '../Apollo/Mutation'
 import { USER_ADMIN } from '../Apollo/Query'
 
 class AdminUpdate extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      id: '',
       name: '',
       email: '',
-      parentsEmail: '',
-      class: ''
+      parentEmail: '',
+      class: '',
+      feedback: null
     }
   }
   handleInputChange = e => this.setState({ [e.target.name]: e.target.value })
+  handleUserSelect = user =>
+    this.setState({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      parentEmail: user.parentEmail || '',
+      class: user.class || '',
+      feedback: null
+    })
   getInitials = name => {
     const first = name.substring(0, 1)
     let last = name
@@ -42,7 +53,7 @@ class AdminUpdate extends Component {
                     key={user.id}
                     id={user.id}
                     name={user.name}
-                    onClick={this.handleUserSelect}>
+                    onClick={() => this.handleUserSelect(user)}>
                     <Initials>{this.getInitials(user.name)}</Initials>
                     <Name>{user.name.substring(0, 20)}</Name>
                   </User>
@@ -51,12 +62,26 @@ class AdminUpdate extends Component {
             )
           }}
         </Query>
-        {/* Form to Delete */}
+        {/* Form to Update */}
         <Mutation
-          mutation={CHANGE_PASSWORD}
+          mutation={UPDATE_USER}
           variables={{
             id: this.state.id,
-            password: this.state.password
+            name: this.state.name,
+            email: this.state.email,
+            parentEmail: this.state.parentEmail,
+            class: this.state.class
+          }}
+          onCompleted={data => {
+            console.log(data)
+            this.setState({
+              feedback: `Succeessfully updated: ${data.updateUser.name}`,
+              id: '',
+              name: '',
+              email: '',
+              parentEmail: '',
+              class: ''
+            })
           }}>
           {updateUser => (
             <Form
@@ -65,7 +90,7 @@ class AdminUpdate extends Component {
                 updateUser()
                 this.setState({ name: '', email: '', password: '' })
               }}
-              autoComplete='off'>
+              autoComplete='none'>
               <Input
                 name='name'
                 type='text'
@@ -81,20 +106,23 @@ class AdminUpdate extends Component {
                 onChange={this.handleInputChange}
               />
               <Input
-                name='parentsEmail'
-                type='parentsEmail'
-                value={this.state.parentsEmail}
+                name='parentEmail'
+                type='text'
+                value={this.state.parentEmail}
                 placeholder='Parents Email'
                 onChange={this.handleInputChange}
               />
               <Input
                 name='class'
-                type='class'
+                type='text'
                 value={this.state.class}
                 placeholder='Class Name'
                 onChange={this.handleInputChange}
               />
-              <CreateBtn type='submit'>Update</CreateBtn>
+              <UpdateButton type='submit'>Update</UpdateButton>
+              {this.state.feedback ? (
+                <Feedback>{this.state.feedback}</Feedback>
+              ) : null}
             </Form>
           )}
         </Mutation>
@@ -160,7 +188,7 @@ const Input = styled.input`
     outline: none;
   }
 `
-const CreateBtn = styled.button`
+const UpdateButton = styled.button`
   background: transparent;
   border: 1px solid white;
   border-radius: 15px;
@@ -172,4 +200,9 @@ const CreateBtn = styled.button`
   :hover {
     background: #444;
   }
+`
+const Feedback = styled.p`
+  color: red;
+  font-size: 1rem;
+  margin-top: 5px;
 `
