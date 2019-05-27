@@ -1,20 +1,74 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Icon from '../Components/Icon'
+import { Query } from 'react-apollo'
+import { USER_LOG } from '../Apollo/Query'
+import moment from 'moment-timezone'
 
-const Reporting = () => {
-  return (
-    <Container>
-      <Header>
-        <CstmLink to='/'>
-          <Icon icon='home' />
-        </CstmLink>
-        <h3>Reporting</h3>
-      </Header>
-      <Body>Reporting</Body>
-    </Container>
-  )
+class Reporting extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      student: null
+    }
+  }
+  render() {
+    return (
+      <Query query={USER_LOG} variables={{ id: this.state.student || null }}>
+        {({ loading, error, data }) => {
+          if (loading) return <div>Fetching</div>
+          if (error) return <div>Error: Refresh Page</div>
+
+          let logs = data.userLog
+          let users = data.users
+          console.log(logs)
+
+          return (
+            <Container>
+              {/* Header */}
+              <Header>
+                <CstmLink to='/'>
+                  <Icon icon='home' />
+                </CstmLink>
+                <h3>Reporting</h3>
+                {/* Student Dropodown */}
+                <Select
+                  onChange={e => this.setState({ student: e.target.value })}
+                  value={this.state.student}>
+                  <option value=''>Select Student</option>
+                  {users.map(user => (
+                    <option value={user.id} key={user.id}>
+                      {user.name}
+                    </option>
+                  ))}
+                </Select>
+              </Header>
+              {/* Body */}
+              <Body>
+                {logs.map(log => {
+                  const date = moment(log.createdAt)
+                  return log.change ? (
+                    // If there is a change its returned changes
+                    <Entry key={log.id}>
+                      <p>{log.change}</p>
+                      <p>{log.description}</p>
+                      <p>{date.tz('America/Boise').format('l LT')}</p>
+                    </Entry>
+                  ) : (
+                    // If not we return a message to select student
+                    <Entry key={log.id}>
+                      <p>Select Student</p>
+                    </Entry>
+                  )
+                })}
+              </Body>
+            </Container>
+          )
+        }}
+      </Query>
+    )
+  }
 }
 
 export default Reporting
@@ -44,10 +98,36 @@ const CstmLink = styled(Link)`
     color: #bbb;
   }
 `
+const Select = styled.select`
+  background: #444;
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+  border-bottom: 1px solid white;
+  color: white;
+  font-size: 1rem;
+  margin-left: 15px;
+  :focus {
+    outline: none;
+  }
+  option {
+    text-transform: uppercase;
+  }
+`
 const Body = styled.div`
   border: 1px solid white;
   border-radius: 15px;
   height: 84vh
   padding: 2vh;
   width: 65%;
+  overflow: auto;
+`
+const Entry = styled.div`
+  display: flex;
+  justify-content: space-between
+  padding: 15px;
+  border-top: 1px solid white;
+  :last-child {
+    border-bottom: 1px solid white;
+  }
 `

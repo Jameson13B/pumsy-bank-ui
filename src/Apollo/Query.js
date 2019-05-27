@@ -31,4 +31,18 @@ const USER_PROFILE = gql`
     }
   }
 `
-export { USER_DASHBOARD_QUERY, USER_ADMIN, USER_PROFILE }
+const USER_LOG = gql`
+  query($id: ID) {
+    userLog(id: $id) {
+      id
+      change
+      description
+      createdAt
+    }
+    users {
+      id
+      name
+    }
+  }
+`
+export { USER_DASHBOARD_QUERY, USER_ADMIN, USER_PROFILE, USER_LOG }
