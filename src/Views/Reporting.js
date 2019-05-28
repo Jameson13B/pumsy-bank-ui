@@ -10,19 +10,38 @@ class Reporting extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      student: null
+      student: '',
+      start: '',
+      end: ''
     }
   }
+  handleInputChange = e => {
+    this.setState({ [e.target.name]: e.target.value })
+  }
   render() {
+    const variables =
+      this.state.start === '' && this.state.end === ''
+        ? {
+            id: this.state.student || null
+          }
+        : {
+            id: this.state.student || null,
+            start: this.state.start,
+            end: this.state.end
+          }
+    console.log(variables)
     return (
-      <Query query={USER_LOG} variables={{ id: this.state.student || null }}>
+      <Query query={USER_LOG} variables={variables}>
         {({ loading, error, data }) => {
           if (loading) return <div>Fetching</div>
-          if (error) return <div>Error: Refresh Page</div>
+          if (error) {
+            console.log(error)
+            return <div>Error: Refresh Page</div>
+          }
 
           let logs = data.userLog
           let users = data.users
-          console.log(logs)
+          console.log({ id: this.state.student || null })
 
           return (
             <Container>
@@ -43,6 +62,20 @@ class Reporting extends Component {
                     </option>
                   ))}
                 </Select>
+                {/* Start Date */}
+                <DateInput
+                  type='date'
+                  name='start'
+                  value={this.state.start}
+                  onChange={this.handleInputChange}
+                />
+                {/* End Date */}
+                <DateInput
+                  type='date'
+                  name='end'
+                  value={this.state.end}
+                  onChange={this.handleInputChange}
+                />
               </Header>
               {/* Body */}
               <Body>
@@ -112,6 +145,21 @@ const Select = styled.select`
   }
   option {
     text-transform: uppercase;
+  }
+`
+const DateInput = styled.input`
+  background: #444;
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+  border-bottom: 1px solid white;
+  border-radius: 5px;
+  color: white;
+  font-size: 1rem;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  margin-left: 15px;
+  :focus {
+    outline: none;
   }
 `
 const Body = styled.div`

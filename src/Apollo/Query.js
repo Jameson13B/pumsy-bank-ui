@@ -32,8 +32,8 @@ const USER_PROFILE = gql`
   }
 `
 const USER_LOG = gql`
-  query($id: ID) {
-    userLog(id: $id) {
+  query($id: ID, $start: DateTime, $end: DateTime) {
+    userLog(id: $id, start: $start, end: $end) {
       id
       change
       description
