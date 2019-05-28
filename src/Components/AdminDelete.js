@@ -4,6 +4,9 @@ import Icon from '../Components/Icon'
 import { Mutation, Query } from 'react-apollo'
 import { DELETE_USER } from '../Apollo/Mutation'
 import { USER_DASHBOARD_QUERY } from '../Apollo/Query'
+import { USER_CHANGE_SUBSCRIPTION } from '../Apollo/Subscriptions'
+import { confirmAlert } from 'react-confirm-alert'
+import './alert.css'
 
 class AdminDelete extends Component {
   constructor(props) {
@@ -21,6 +24,22 @@ class AdminDelete extends Component {
       .substring(0, 1)
     return first + last
   }
+  _subscribeToUserChanges = subscribeToMore => {
+    subscribeToMore({
+      document: USER_CHANGE_SUBSCRIPTION,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) return prev
+        const users = [...prev.users]
+        const deletedUser = subscriptionData.data.dashboard
+        const index = users.findIndex(user => user.id === deletedUser.id)
+        if (index === -1) return prev
+        users.splice(index, 1)
+        return Object.assign({}, prev, {
+          users
+        })
+      }
+    })
+  }
   render() {
     return (
       <Container>
@@ -29,9 +48,11 @@ class AdminDelete extends Component {
         ) : null}
         {/* List of Users */}
         <Query query={USER_DASHBOARD_QUERY}>
-          {({ loading, error, data }) => {
+          {({ loading, error, data, subscribeToMore }) => {
             if (loading) return <div>Fetching</div>
             if (error) return <div>Error</div>
+
+            this._subscribeToUserChanges(subscribeToMore)
 
             let users = data.users
 
@@ -54,7 +75,28 @@ class AdminDelete extends Component {
                         })
                       }}>
                       {deleteUser => (
-                        <CustomIcon icon='delete' onClick={deleteUser} />
+                        <CustomIcon
+                          icon='delete'
+                          onClick={e => {
+                            // deleteUser()
+                            confirmAlert({
+                              title: 'Delete Student?',
+                              message: `Are you sure you want to delete ${
+                                user.name
+                              }? This cannot be undone.`,
+                              buttons: [
+                                {
+                                  label: 'Yes',
+                                  onClick: () => deleteUser()
+                                },
+                                {
+                                  label: 'No',
+                                  onClick: () => {}
+                                }
+                              ]
+                            })
+                          }}
+                        />
                       )}
                     </Mutation>
                   </User>

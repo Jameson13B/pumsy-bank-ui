@@ -6,6 +6,7 @@ const USER_CHANGE_SUBSCRIPTION = gql`
       id
       name
       balance
+      class
     }
   }
 `
