@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Query } from 'react-apollo'
 import { USER_DASHBOARD_QUERY } from '../Apollo/Query'
 import { USER_CHANGE_SUBSCRIPTION } from '../Apollo/Subscriptions'
-import UserSummary from '../Components/UserSummary'
+import UserSummary from '../Components/DashboardUserSummary'
 import Icon from '../Components/Icon'
 import styled from 'styled-components'
 

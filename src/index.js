@@ -11,6 +11,8 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { split } from 'apollo-link'
 import { WebSocketLink } from 'apollo-link-ws'
 import { getMainDefinition } from 'apollo-utilities'
+// Configure dotenv
+require('dotenv').config()
 // Create Websocket URI
 const wsLink = new WebSocketLink({
   uri: `ws://localhost:4000`,

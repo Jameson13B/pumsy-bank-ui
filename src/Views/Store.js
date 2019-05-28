@@ -1,20 +1,42 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Icon from '../Components/Icon'
+import ItemMgmt from '../Components/StoreItemMgmt'
+import PurchaseLog from '../Components/StorePurchaseLog'
 
-const Store = props => {
-  return (
-    <Container>
-      <Header>
-        <CstmLink to='/'>
-          <Icon icon='home' />
-        </CstmLink>
-        <h3>Store</h3>
-      </Header>
-      <Body>Store</Body>
-    </Container>
-  )
+class Store extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      view: props.view || 'log'
+    }
+  }
+  handleToggleView = e => this.setState({ view: e.target.getAttribute('name') })
+  render() {
+    return (
+      <Container>
+        <Header>
+          <CstmLink to='/'>
+            <Icon icon='home' />
+          </CstmLink>
+          <h3>Store</h3>
+        </Header>
+        <Body>
+          <Nav>
+            <NavBtn name='log' onClick={this.handleToggleView}>
+              Purchase Log
+            </NavBtn>
+            <NavBtn name='mgmt' onClick={this.handleToggleView}>
+              Item Management
+            </NavBtn>
+          </Nav>
+          {this.state.view === 'log' ? <PurchaseLog /> : null}
+          {this.state.view === 'mgmt' ? <ItemMgmt /> : null}
+        </Body>
+      </Container>
+    )
+  }
 }
 
 export default Store
@@ -50,4 +72,24 @@ const Body = styled.div`
   height: 84vh
   padding: 2vh;
   width: 65%;
+  display: flex;
+  flex-direction: column;
+`
+const Nav = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+`
+const NavBtn = styled.div`
+  border: 1px solid white;
+  border-radius: 15px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  width: 30%;
+  :hover {
+    background: #444;
+  }
 `

@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { Query } from 'react-apollo'
 import { USER_PROFILE } from '../Apollo/Query'
-import PosBtnList from '../Components/PosBtnList'
-import NegBtnList from '../Components/NegBtnList'
+import PosBtnList from '../Components/ProfilePosBtnList'
+import NegBtnList from '../Components/ProfileNegBtnList'
 import Icon from '../Components/Icon'
 
 class Profile extends Component {

@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Mutation } from 'react-apollo'
-import { ADD_POINTS } from '../Apollo/Mutation'
-import AddNew from '../Components/AddNew'
+import { REMOVE_POINTS } from '../Apollo/Mutation'
+import AddNew from '../Components/DashboardAddNew'
 
-class PosBtnList extends Component {
+class NegBtnList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      buttons: JSON.parse(localStorage.getItem('PosBtnList')) || []
+      buttons: JSON.parse(localStorage.getItem('NegBtnList')) || []
     }
   }
   handleLongPress = e => {
@@ -19,7 +19,7 @@ class PosBtnList extends Component {
   deleteButton = i => {
     const list = this.state.buttons.slice()
     list.splice(i, 1)
-    localStorage.setItem('PosBtnList', JSON.stringify(list))
+    localStorage.setItem('NegBtnList', JSON.stringify(list))
     this.setState({ buttons: list })
   }
   handleLongRelease = () => {
@@ -35,14 +35,14 @@ class PosBtnList extends Component {
           {this.state.buttons.map((button, i) => {
             return (
               <Mutation
-                mutation={ADD_POINTS}
+                mutation={REMOVE_POINTS}
                 variables={{
                   id: this.props.id,
                   title: button.title,
                   points: button.points
                 }}
                 key={i}>
-                {addPoints => (
+                {removePoints => (
                   <Button
                     data-index={i}
                     onTouchStart={this.handleLongPress}
@@ -51,7 +51,7 @@ class PosBtnList extends Component {
                     onMouseUp={this.handleLongRelease}
                     onMouseLeave={this.handleLongRelease}
                     onClick={() => {
-                      addPoints()
+                      removePoints()
                       this.props.history.replace('/dashboard')
                     }}>
                     <p>{button.title}</p>
@@ -63,7 +63,7 @@ class PosBtnList extends Component {
           })}
         </List>
         <AddNew
-          status='Pos'
+          status='Neg'
           id={this.props.id}
           handleListUpdate={this.handleListUpdate}
         />
@@ -72,7 +72,7 @@ class PosBtnList extends Component {
   }
 }
 
-export default PosBtnList
+export default NegBtnList
 
 const Container = styled.div`
   margin: 25px auto;
