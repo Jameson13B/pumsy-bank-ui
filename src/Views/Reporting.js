@@ -21,27 +21,20 @@ class Reporting extends Component {
   render() {
     const variables =
       this.state.start === '' && this.state.end === ''
-        ? {
-            id: this.state.student || null
-          }
+        ? { id: this.state.student || null }
         : {
             id: this.state.student || null,
             start: this.state.start,
             end: this.state.end
           }
-    console.log(variables)
     return (
       <Query query={USER_LOG} variables={variables}>
         {({ loading, error, data }) => {
           if (loading) return <div>Fetching</div>
-          if (error) {
-            console.log(error)
-            return <div>Error: Refresh Page</div>
-          }
+          if (error) return <div>Error: Refresh Page</div>
 
           let logs = data.userLog
           let users = data.users
-          console.log({ id: this.state.student || null })
 
           return (
             <Container>
@@ -63,6 +56,7 @@ class Reporting extends Component {
                   ))}
                 </Select>
                 {/* Start Date */}
+                <DateLabel>Start: </DateLabel>
                 <DateInput
                   type='date'
                   name='start'
@@ -70,6 +64,7 @@ class Reporting extends Component {
                   onChange={this.handleInputChange}
                 />
                 {/* End Date */}
+                <DateLabel>End: </DateLabel>
                 <DateInput
                   type='date'
                   name='end'
@@ -157,10 +152,14 @@ const DateInput = styled.input`
   color: white;
   font-size: 1rem;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  margin-left: 15px;
+  margin-left: 5px;
   :focus {
     outline: none;
   }
+`
+const DateLabel = styled.h1`
+  margin-left: 20px;
+  font-size: 1.25rem;
 `
 const Body = styled.div`
   border: 1px solid white;
