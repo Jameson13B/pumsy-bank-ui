@@ -10,6 +10,7 @@ class AdminCreate extends Component {
       name: '',
       email: '',
       password: '',
+      class: '',
       feedback: null
     }
   }
@@ -21,7 +22,8 @@ class AdminCreate extends Component {
         variables={{
           name: this.state.name,
           email: this.state.email,
-          password: this.state.password
+          password: this.state.password,
+          class: this.state.class
         }}
         onCompleted={data =>
           this.setState({
@@ -33,7 +35,7 @@ class AdminCreate extends Component {
             onSubmit={e => {
               e.preventDefault()
               createUser()
-              this.setState({ name: '', email: '', password: '' })
+              this.setState({ name: '', email: '', password: '', class: '' })
             }}
             autoComplete='nope'>
             <Input
@@ -55,6 +57,13 @@ class AdminCreate extends Component {
               type='password'
               value={this.state.password}
               placeholder='Students Password'
+              onChange={this.handleInputChange}
+            />
+            <Input
+              name='class'
+              type='text'
+              value={this.state.class}
+              placeholder='Students Class'
               onChange={this.handleInputChange}
             />
             <CreateBtn type='submit'>Create</CreateBtn>

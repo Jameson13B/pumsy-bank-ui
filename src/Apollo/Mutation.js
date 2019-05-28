@@ -17,8 +17,13 @@ const REMOVE_POINTS = gql`
   }
 `
 const CREATE_USER = gql`
-  mutation($name: String!, $email: String!, $password: String!) {
-    createUser(name: $name, email: $email, password: $password) {
+  mutation(
+    $name: String!
+    $email: String!
+    $password: String!
+    $class: String!
+  ) {
+    createUser(name: $name, email: $email, password: $password, class: $class) {
       token
       user {
         id
