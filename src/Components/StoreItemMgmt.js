@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { database as db } from '../firebase'
+import ItemBtn from './StoreItemBtn'
 
 class ItemMgmt extends Component {
   constructor(props) {
@@ -16,28 +17,46 @@ class ItemMgmt extends Component {
         .then(querySnapshot => {
           let items = []
           querySnapshot.forEach(doc => {
-            items.push(doc.data())
+            const data = doc.data()
+            data.id = doc.id
+            items.push(data)
           })
-          console.log(items)
           this.setState({ items })
         })
     }
+  }
+  deleteItem = (index, id) => {
+    const list = this.state.items.slice()
+    list.splice(index, 1)
+    db.collection('inventory')
+      .doc(id)
+      .delete()
+      .then(() => {
+        this.setState({ items: list })
+      })
+      .catch(err => {
+        console.log('Error Deleting: ', err)
+        alert('Error Deleting: Try again or check console')
+      })
   }
   render() {
     return (
       <Container>
         <p>Item Management</p>
         <ItemList>
-          {/* {this.state.items.map(item => {
+          {this.state.items.map((item, i) => {
             return (
-              <div style={{ border: '1px solid white' }}>
-                <p>{item.title}</p>
-                <p>{item.description}</p>
-                <p style={{ fontSize: '3rem' }}>{item.amount}</p>
-              </div>
+              // Props: { item: item }
+              <ItemBtn
+                item={item}
+                key={i}
+                index={i}
+                deleteItem={this.deleteItem}
+              />
             )
-          })} */}
+          })}
         </ItemList>
+        {/* Add Item Form Here */}
       </Container>
     )
   }
@@ -53,4 +72,7 @@ const ItemList = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  align-items: center;
+  height: 100%;
+  overflow: auto:
 `
