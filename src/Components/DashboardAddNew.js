@@ -16,7 +16,7 @@ class AddNew extends Component {
       points: parseInt(this.state.points)
     }
     // Add to localStorage
-    let list = JSON.parse(localStorage.getItem(`${this.props.status}BtnList`))
+    let list = JSON.parse(localStorage.getItem(`${this.props.status}BtnList`)) || []
     list.push(button)
     localStorage.setItem(`${this.props.status}BtnList`, JSON.stringify(list))
     this.setState({ points: '', title: '' })
