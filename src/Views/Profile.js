@@ -41,10 +41,8 @@ class Profile extends Component {
                 <Item>Balance: {user.balance}</Item>
                 <Item>{user.email}</Item>
                 <BtnPanel>
-                  <Btn onClick={() => this.handleTogglePos(true)}>Positive</Btn>
-                  <Btn onClick={() => this.handleTogglePos(false)}>
-                    Needs Improvement
-                  </Btn>
+                  <Btn onClick={() => this.handleTogglePos(true)} className={this.state.positive && 'active'}>Positive</Btn>
+                  <Btn onClick={() => this.handleTogglePos(false)} className={!this.state.positive && 'active'}>Needs Improvement</Btn>
                 </BtnPanel>
                 {this.state.positive ? (
                   <PosBtnList id={user.id} history={this.props.history} />
@@ -131,5 +129,8 @@ const Btn = styled.div`
   }
   :nth-child(1) {
     margin-right: 15px;
+  }
+  &.active {
+    background: #444;
   }
 `
