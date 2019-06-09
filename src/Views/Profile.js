@@ -19,6 +19,34 @@ class Profile extends Component {
   }
   render() {
     const id = this.props.match.params.id
+    // If the profile is for a class:
+    if (id.includes('Class')) {
+      return (
+        <Container>
+          <Header>
+            <CstmLink to='/dashboard'>
+              <Icon icon='arrow_back' />
+            </CstmLink>
+            <h3>Profile</h3>
+          </Header>
+          <Body>
+            <Name>{id}</Name>
+            <Id>{id}</Id>
+            <Item>Add/Remove points for the entire {id}</Item>
+            <BtnPanel>
+              <Btn onClick={() => this.handleTogglePos(true)} className={this.state.positive && 'active'}>Positive</Btn>
+              <Btn onClick={() => this.handleTogglePos(false)} className={!this.state.positive && 'active'}>Needs Improvement</Btn>
+            </BtnPanel>
+            {this.state.positive ? (
+              <PosBtnList id={id} history={this.props.history} />
+            ) : (
+              <NegBtnList id={id} history={this.props.history} />
+            )}
+          </Body>
+        </Container>
+      )
+    }
+    // If a profile is for a student:
     return (
       <Query query={USER_PROFILE} variables={{ id }}>
         {({ loading, error, data, refetch }) => {

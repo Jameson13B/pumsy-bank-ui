@@ -53,9 +53,18 @@ class Dashboard extends Component {
             }
           })
 
-          // Filter users
+          // Filter users and create class button
+          let classUser = {
+            id: '',
+            name: '',
+            balance: '',
+            class: ''
+          }
           if (this.state.class !== 'All') {
             users = users.filter(user => user.class === this.state.class)
+            classUser.id = `${this.state.class} Class`
+            classUser.name = `${this.state.class} Class`
+            classUser.class = this.state.class
           }
           return (
             <Container>
@@ -75,6 +84,7 @@ class Dashboard extends Component {
                 </Select>
               </Header>
               <UserList updateStoreAfterChange={this._updateCacheAfterVote}>
+                {this.state.class !== 'All' && <UserSummary user={classUser} />}
                 {users
                   .sort((a, b) => {
                     return a.name > b.name ? 1 : -1
