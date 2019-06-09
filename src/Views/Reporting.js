@@ -77,7 +77,7 @@ class Reporting extends Component {
                 {logs.map(log => {
                   const date = moment(log.createdAt)
                   return log.change ? (
-                    // If there is a change its returned changes
+                    // If there are changes, create an Entry for each
                     <Entry key={log.id}>
                       <p>{log.change}</p>
                       <p>{log.description}</p>
@@ -86,7 +86,7 @@ class Reporting extends Component {
                   ) : (
                     // If not we return a message to select student
                     <Entry key={log.id}>
-                      <p>Select Student</p>
+                      <p>Select Student Above</p>
                     </Entry>
                   )
                 })}
