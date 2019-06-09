@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Mutation, Query } from 'react-apollo'
 import { UPDATE_USER } from '../Apollo/Mutation'
-import { USER_ADMIN } from '../Apollo/Query'
+import { USER_ADMIN, USER_DASHBOARD_QUERY } from '../Apollo/Query'
 
 class AdminUpdate extends Component {
   constructor(props) {
@@ -81,6 +81,18 @@ class AdminUpdate extends Component {
               parentEmail: '',
               class: ''
             })
+          }}
+          update={(cache, { data: { updateUser } }) => {
+            let { users } = cache.readQuery({ query: USER_DASHBOARD_QUERY });
+            users.forEach(user => {
+              if (user.id === updateUser.id) {
+                user = updateUser
+              }
+            })
+            cache.writeQuery({
+              query: USER_DASHBOARD_QUERY,
+              data: { users },
+            });
           }}>
           {updateUser => (
             <Form

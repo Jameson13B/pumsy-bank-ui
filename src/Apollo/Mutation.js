@@ -3,6 +3,7 @@ import gql from 'graphql-tag'
 const ADD_POINTS = gql`
   mutation($id: ID!, $title: String!, $points: Int!) {
     addPoints(id: $id, description: $title, points: $points) {
+      id
       name
       balance
     }
@@ -28,6 +29,8 @@ const CREATE_USER = gql`
       user {
         id
         name
+        balance
+        class
       }
     }
   }
@@ -49,8 +52,6 @@ const UPDATE_USER = gql`
     ) {
       id
       name
-      email
-      parentEmail
       balance
       class
     }

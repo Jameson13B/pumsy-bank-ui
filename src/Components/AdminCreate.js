@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Mutation } from 'react-apollo'
 import { CREATE_USER } from '../Apollo/Mutation'
+import { USER_DASHBOARD_QUERY } from '../Apollo/Query'
 
 class AdminCreate extends Component {
   constructor(props) {
@@ -29,7 +30,15 @@ class AdminCreate extends Component {
           this.setState({
             feedback: `Succeessfully created: ${data.createUser.user.name}`
           })
-        }>
+        }
+        update={(cache, { data: { createUser } }) => {
+          let { users } = cache.readQuery({ query: USER_DASHBOARD_QUERY });
+          users.push(createUser.user)
+          cache.writeQuery({
+            query: USER_DASHBOARD_QUERY,
+            data: { users },
+          });
+        }}>
         {createUser => (
           <Container
             onSubmit={e => {

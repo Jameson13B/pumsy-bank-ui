@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Mutation } from 'react-apollo'
 import { REMOVE_POINTS } from '../Apollo/Mutation'
+import { USER_DASHBOARD_QUERY } from '../Apollo/Query';
 import AddNew from '../Components/DashboardAddNew'
 
 class NegBtnList extends Component {
@@ -40,6 +41,18 @@ class NegBtnList extends Component {
                   id: this.props.id,
                   title: button.title,
                   points: button.points
+                }}
+                update={(cache, { data: { removePoints } }) => {
+                  let { users } = cache.readQuery({ query: USER_DASHBOARD_QUERY });
+                  users.forEach(user => {
+                    if (user.id === removePoints.id) {
+                      user.balance = removePoints.balance
+                    }
+                  })
+                  cache.writeQuery({
+                    query: USER_DASHBOARD_QUERY,
+                    data: { users },
+                  });
                 }}
                 key={i}>
                 {removePoints => (
