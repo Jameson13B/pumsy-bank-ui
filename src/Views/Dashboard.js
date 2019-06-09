@@ -11,16 +11,10 @@ class Dashboard extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      class: 'All'
+      class: localStorage.getItem('filterItem') || 'All'
     }
   }
-  _updateCacheAfterVote = (store, createVote, userId) => {
-    const data = store.readQuery({ query: USER_DASHBOARD_QUERY })
-    const user = data.links.find(user => user.id === userId)
-    user.votes = createVote.link.votes
 
-    store.writeQuery({ query: USER_DASHBOARD_QUERY, data })
-  }
   _subscribeToUserChanges = subscribeToMore => {
     subscribeToMore({
       document: USER_CHANGE_SUBSCRIPTION,
@@ -34,6 +28,10 @@ class Dashboard extends Component {
         })
       }
     })
+  }
+  handleFilterChange = e => {
+    localStorage.setItem('filterItem', e.target.value)
+    this.setState({ class: e.target.value })
   }
   render() {
     return (
@@ -74,7 +72,8 @@ class Dashboard extends Component {
                 </CstmLink>
                 <h3>Dashboard</h3>
                 <Select
-                  onChange={e => this.setState({ class: e.target.value })}>
+                  onChange={this.handleFilterChange}
+                  value={this.state.class}>
                   <option value='All'>All</option>
                   {classes.map((clas, i) => (
                     <option value={clas} key={i}>
@@ -83,8 +82,10 @@ class Dashboard extends Component {
                   ))}
                 </Select>
               </Header>
-              <UserList updateStoreAfterChange={this._updateCacheAfterVote}>
+              <UserList>
+                {/* If class is filtered show class button */}
                 {this.state.class !== 'All' && <UserSummary user={classUser} />}
+                {/* List all users for current filter */}
                 {users
                   .sort((a, b) => {
                     return a.name > b.name ? 1 : -1
