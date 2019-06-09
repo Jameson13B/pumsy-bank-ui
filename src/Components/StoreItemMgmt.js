@@ -21,6 +21,8 @@ class ItemMgmt extends Component {
             data.id = doc.id
             items.push(data)
           })
+          // Sort buttons alphabetically
+          items.sort((a, b) => a.title > b.title ? 1 : -1)
           this.setState({ items })
         })
     }
