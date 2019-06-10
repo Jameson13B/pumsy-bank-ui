@@ -74,19 +74,21 @@ class Reporting extends Component {
               </Header>
               {/* Body */}
               <Body>
+                {/* If log is empty return 'nothing to show' */}
+                {logs.length === 0 && <Entry>Nothing to show yet...</Entry>}
                 {logs.map(log => {
                   const date = moment(log.createdAt)
-                  return log.change ? (
-                    // If there are changes, create an Entry for each
+                  // If there is only the default change return 'select student'
+                  return !log.change ? (
+                    <Entry key={log.id}>
+                      <p>Select Student Above</p>
+                    </Entry>
+                  ) : (
+                    // Else if there is a log with change, create an Entry for each
                     <Entry key={log.id}>
                       <p>{log.change}</p>
                       <p>{log.description}</p>
                       <p>{date.tz('America/Boise').format('l LT')}</p>
-                    </Entry>
-                  ) : (
-                    // If not we return a message to select student
-                    <Entry key={log.id}>
-                      <p>Select Student Above</p>
                     </Entry>
                   )
                 })}
