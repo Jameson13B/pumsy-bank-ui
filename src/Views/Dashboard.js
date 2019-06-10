@@ -67,7 +67,7 @@ class Dashboard extends Component {
           return (
             <Container>
               <Header>
-                <CstmLink to='/'>
+                <CstmLink to='/' onClick={() => localStorage.removeItem('filterItem')}>
                   <Icon icon='home' />
                 </CstmLink>
                 <h3>Dashboard</h3>
