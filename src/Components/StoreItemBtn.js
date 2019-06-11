@@ -8,7 +8,6 @@ const ItemBtn = props => {
     // Create delete function inside timer
     const index = e.currentTarget.dataset.index
     const id = e.currentTarget.dataset.id
-    console.log(id)
     buttonPressTimer = setTimeout(() => props.deleteItem(index, id), 2000)
     // buttonPressTimer = setTimeout(() => alert('Deleted'), 2000)
   }
@@ -19,6 +18,7 @@ const ItemBtn = props => {
     <Container
       data-index={props.index}
       data-id={props.item.id}
+      onClick={() => props.handleClick(props.item.title, props.item.description, props.item.amount, props.item.id)}
       onTouchStart={handleLongPress}
       onTouchEnd={handleLongRelease}
       onMouseDown={handleLongPress}

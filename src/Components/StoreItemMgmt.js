@@ -7,7 +7,13 @@ class ItemMgmt extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      items: []
+      items: [],
+      feedback: null,
+      title: '',
+      description: '',
+      amount: '',
+      id: '',
+      creating: true
     }
   }
   componentDidMount() {
@@ -25,8 +31,11 @@ class ItemMgmt extends Component {
           items.sort((a, b) => a.title > b.title ? 1 : -1)
           this.setState({ items })
         })
+        .catch(feedback => this.setState({feedback}))
     }
   }
+  handleInputChange = e => this.setState({ [e.target.name]: e.target.value })
+  handleUpdateSelect = (title, description, amount, id) => this.setState({title, description, amount, id, creating: false})
   deleteItem = (index, id) => {
     const list = this.state.items.slice()
     list.splice(index, 1)
@@ -34,17 +43,40 @@ class ItemMgmt extends Component {
       .doc(id)
       .delete()
       .then(() => {
-        this.setState({ items: list })
+        this.setState({ items: list, title: '', description: '', amount: '', id: '' })
       })
-      .catch(err => {
-        console.log('Error Deleting: ', err)
-        alert('Error Deleting: Try again or check console')
-      })
+      .catch(feedback => this.setState({feedback}))
+  }
+  createItem = (newItem) => {
+    // Create Functionality
+    // const list = this.state.items.slice()
+    // list.splice(index, 1)
+    // db.collection('inventory')
+    //   .doc(id)
+    //   .delete()
+    //   .then(() => {
+    //       this.setState({ items: list, title: '', description: '', amount: '', id: ''  })
+    //     })
+    //     .catch(feedback => this.setState({feedback}))
+  }
+  updateItem = (newItem) => {
+    console.log(newItem)
+    this.setState({creating: true})
+    // Create Functionality
+    // const list = this.state.items.slice()
+    // list.splice(index, 1)
+    // db.collection('inventory')
+    //   .doc(newItem.id)
+    //   .delete()
+    //   .then(() => {
+    //     this.setState({ items: list, title: '', description: '', amount: '', id: '', creating: true  })
+    //   })
+    //   .catch(feedback => this.setState({feedback}))
   }
   render() {
+    const newItem = {title: this.state.title, description: this.state.description, amount: this.state.amount, id: this.state.id}
     return (
       <Container>
-        <p>Item Management</p>
         <ItemList>
           {this.state.items.map((item, i) => {
             return (
@@ -54,11 +86,45 @@ class ItemMgmt extends Component {
                 key={i}
                 index={i}
                 deleteItem={this.deleteItem}
+                handleClick={this.handleUpdateSelect}
               />
             )
           })}
         </ItemList>
-        {/* Add Item Form Here */}
+        {/* Add/Update Item Form */}
+        <Form
+              onSubmit={e => {
+                e.preventDefault()
+                this.state.create ? this.createItem(newItem) : this.updateItem(newItem)
+                this.setState({ title: '', description: '', amount: '', id: '' })
+              }}
+              autoComplete='none'>
+              <Input
+                name='title'
+                type='text'
+                value={this.state.title}
+                placeholder='Item Title'
+                onChange={this.handleInputChange}
+              />
+              <Input
+                name='description'
+                type='text'
+                value={this.state.description}
+                placeholder='Item Description'
+                onChange={this.handleInputChange}
+              />
+              <Input
+                name='amount'
+                type='text'
+                value={this.state.amount}
+                placeholder='Item Amount'
+                onChange={this.handleInputChange}
+              />
+              <SubmitButton type='submit'>{this.state.creating ? 'Create Item' : 'Update Item'}</SubmitButton>
+              {this.state.feedback ? (
+                <Feedback>{this.state.feedback}</Feedback>
+              ) : null}
+            </Form>
       </Container>
     )
   }
@@ -75,6 +141,44 @@ const ItemList = styled.div`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  height: 100%;
+  height: 60%;
   overflow: auto:
+`
+const Form = styled.form`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 40%;
+`
+const Input = styled.input`
+  background: transparent;
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+  border-bottom: 1px solid white;
+  color: white;
+  font-size: 1.25rem;
+  margin: 15px 0;
+  :focus {
+    outline: none;
+  }
+`
+const SubmitButton = styled.button`
+  background: transparent;
+  border: 1px solid white;
+  border-radius: 15px;
+  color: white;
+  cursor: pointer;
+  font-size: 1.5rem;
+  padding: 15px;
+  margin: 15px 0;
+  :hover {
+    background: #444;
+  }
+`
+const Feedback = styled.p`
+  color: red;
+  font-size: 1rem;
+  margin-top: 5px;
 `
