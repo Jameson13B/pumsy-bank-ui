@@ -43,35 +43,30 @@ class ItemMgmt extends Component {
       .doc(id)
       .delete()
       .then(() => {
-        this.setState({ items: list, title: '', description: '', amount: '', id: '' })
+        this.setState({ items: list, title: '', description: '', amount: '', id: '', feedback: null })
       })
       .catch(feedback => this.setState({feedback}))
   }
   createItem = (newItem) => {
-    // Create Functionality
-    // const list = this.state.items.slice()
-    // list.splice(index, 1)
-    // db.collection('inventory')
-    //   .doc(id)
-    //   .delete()
-    //   .then(() => {
-    //       this.setState({ items: list, title: '', description: '', amount: '', id: ''  })
-    //     })
-    //     .catch(feedback => this.setState({feedback}))
+    const list = [...this.state.items, newItem].sort((a, b) => a.title > b.title ? 1 : -1)
+    db.collection('inventory')
+      .add(newItem)
+      .then(res => {
+          this.setState({ items: list, title: '', description: '', amount: '', id: '', feedback: null  })
+        })
+        .catch(feedback => this.setState({feedback}))
   }
   updateItem = (newItem) => {
-    console.log(newItem)
-    this.setState({creating: true})
     // Create Functionality
-    // const list = this.state.items.slice()
-    // list.splice(index, 1)
-    // db.collection('inventory')
-    //   .doc(newItem.id)
-    //   .delete()
-    //   .then(() => {
-    //     this.setState({ items: list, title: '', description: '', amount: '', id: '', creating: true  })
-    //   })
-    //   .catch(feedback => this.setState({feedback}))
+      // const list = this.state.items.slice()
+      // list.splice(index, 1)
+      // db.collection('inventory')
+      //   .doc(newItem.id)
+      //   .update(newItem)
+      //   .then(() => {
+      //     this.setState({ items: list, title: '', description: '', amount: '', id: '', creating: true  })
+      //   })
+      //   .catch(feedback => this.setState({feedback}))
   }
   render() {
     const newItem = {title: this.state.title, description: this.state.description, amount: this.state.amount, id: this.state.id}
@@ -95,8 +90,7 @@ class ItemMgmt extends Component {
         <Form
               onSubmit={e => {
                 e.preventDefault()
-                this.state.create ? this.createItem(newItem) : this.updateItem(newItem)
-                this.setState({ title: '', description: '', amount: '', id: '' })
+                this.state.creating ? this.createItem(newItem) : this.updateItem(newItem)
               }}
               autoComplete='none'>
               <Input
@@ -135,14 +129,15 @@ export default ItemMgmt
 const Container = styled.div`
   padding: 20px;
   height: 89%;
+  min-height: 0;
 `
 const ItemList = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   height: 60%;
-  overflow: auto:
+  overflow: auto;
 `
 const Form = styled.form`
   flex: 1;

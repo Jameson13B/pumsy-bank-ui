@@ -36,8 +36,13 @@ export default ItemBtn
 const Container = styled.div`
   border: 1px solid white;
   border-radius: 15px;
+  flex-shrink: 0;
+  margin-bottom: 15px;
   max-width: 550px;
   width: 100%;
+  :last-child {
+    margin-bottom: 0;
+  }
   :hover {
     background: #444;
   }
