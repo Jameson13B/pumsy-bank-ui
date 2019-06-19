@@ -23,9 +23,7 @@ class Dashboard extends Component {
         const newUser = subscriptionData.data.dashboard
         const exists = prev.users.find(({ id }) => id === newUser.id)
         if (exists) return prev
-        return Object.assign({}, prev, {
-          users: [newUser, ...prev.users]
-        })
+        return {...prev, users: [newUser, ...prev.users]}
       }
     })
   }
