@@ -41,7 +41,7 @@ class PurchaseLog extends React.Component {
                       <p>{log.change}</p>
                       <p>{log.description}</p>
                       <p>{log.postedBy.name}</p>
-                      <p>{date.tz("America/Boise").format("ddd Do LT")}</p>
+                      <p>{date.tz("America/Boise").format("MMM Do, LT")}</p>
                     </Entry>
                   )
                 })}

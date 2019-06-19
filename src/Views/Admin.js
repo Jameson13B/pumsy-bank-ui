@@ -64,7 +64,7 @@ const Header = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 65%;
+  width: 75%;
   height: 9vh;
 `
 const CstmLink = styled(Link)`
@@ -81,7 +81,7 @@ const Body = styled.div`
   border-radius: 15px;
   height: 84vh
   padding: 2vh;
-  width: 65%;
+  width: 75%;
 `
 const Nav = styled.div`
   display: flex;

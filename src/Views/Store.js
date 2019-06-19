@@ -54,7 +54,7 @@ const Header = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 65%;
+  width: 75%;
   height: 9vh;
 `
 const CstmLink = styled(Link)`
