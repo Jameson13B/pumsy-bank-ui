@@ -46,8 +46,8 @@ const USER_LOG = gql`
   }
 `
 const PURCHASE_LOG = gql`
-  query($date: DateTime) {
-    purchases(date: $date) {
+  query($start: DateTime, $end: DateTime) {
+    purchases(start: $start, end: $end) {
       id
       description
       change
@@ -56,5 +56,12 @@ const PURCHASE_LOG = gql`
         name
       }
     }
-  }`
-export { USER_DASHBOARD_QUERY, USER_ADMIN, USER_PROFILE, USER_LOG, PURCHASE_LOG }
+  }
+`
+export {
+  USER_DASHBOARD_QUERY,
+  USER_ADMIN,
+  USER_PROFILE,
+  USER_LOG,
+  PURCHASE_LOG
+}
