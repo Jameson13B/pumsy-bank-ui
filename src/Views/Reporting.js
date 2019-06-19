@@ -24,8 +24,8 @@ class Reporting extends Component {
         ? { id: this.state.student || null }
         : {
             id: this.state.student || null,
-            start: this.state.start,
-            end: this.state.end
+            start: moment(this.state.start),
+            end: moment(this.state.end)
           }
     return (
       <Query query={USER_LOG} variables={variables}>
@@ -47,7 +47,8 @@ class Reporting extends Component {
                 {/* Student Dropodown */}
                 <Select
                   onChange={e => this.setState({ student: e.target.value })}
-                  value={this.state.student}>
+                  value={this.state.student}
+                >
                   <option value=''>Select Student</option>
                   {users.map(user => (
                     <option value={user.id} key={user.id}>
