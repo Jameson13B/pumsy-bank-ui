@@ -71,7 +71,7 @@ const Body = styled.div`
   border-radius: 15px;
   height: 84vh
   padding: 2vh;
-  width: 65%;
+  width: 75%;
   display: flex;
   flex-direction: column;
 `

@@ -45,4 +45,16 @@ const USER_LOG = gql`
     }
   }
 `
-export { USER_DASHBOARD_QUERY, USER_ADMIN, USER_PROFILE, USER_LOG }
+const PURCHASE_LOG = gql`
+  query($date: DateTime) {
+    purchases(date: $date) {
+      id
+      description
+      change
+      createdAt
+      postedBy {
+        name
+      }
+    }
+  }`
+export { USER_DASHBOARD_QUERY, USER_ADMIN, USER_PROFILE, USER_LOG, PURCHASE_LOG }
