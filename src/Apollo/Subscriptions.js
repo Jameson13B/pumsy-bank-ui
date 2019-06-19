@@ -11,4 +11,18 @@ const USER_CHANGE_SUBSCRIPTION = gql`
   }
 `
 
-export { USER_CHANGE_SUBSCRIPTION }
+const PURCHASE_LOG_SUBSCRIPTION = gql`
+  subscription {
+    purchase {
+      id
+      description
+      change
+      createdAt
+      postedBy {
+        name
+      }
+    }
+  }
+`
+
+export { USER_CHANGE_SUBSCRIPTION, PURCHASE_LOG_SUBSCRIPTION }
