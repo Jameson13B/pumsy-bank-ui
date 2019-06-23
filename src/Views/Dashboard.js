@@ -23,7 +23,7 @@ class Dashboard extends Component {
         const newUser = subscriptionData.data.dashboard
         const exists = prev.users.find(({ id }) => id === newUser.id)
         if (exists) return prev
-        return {...prev, users: [newUser, ...prev.users]}
+        return { ...prev, users: [newUser, ...prev.users] }
       }
     })
   }
@@ -33,69 +33,82 @@ class Dashboard extends Component {
   }
   render() {
     return (
-      <Query query={USER_DASHBOARD_QUERY}>
-        {({ loading, error, data, subscribeToMore }) => {
-          if (loading) return <div>Fetching</div>
-          if (error) return <div>Error</div>
+      <Container>
+        <Query query={USER_DASHBOARD_QUERY}>
+          {({ loading, error, data, subscribeToMore }) => {
+            if (loading) return <Apollo>👀 Fetching 👀</Apollo>
+            if (error)
+              return (
+                <Apollo>
+                  💩 Error: Check your internet and try refreshing
+                </Apollo>
+              )
 
-          this._subscribeToUserChanges(subscribeToMore)
+            this._subscribeToUserChanges(subscribeToMore)
 
-          let users = data.users
-          // Create list for filter
-          let classes = []
-          users.forEach(user => {
-            if (!classes.includes(user.class)) {
-              classes.push(user.class)
+            let users = data.users
+            // Create list for filter
+            let classes = []
+            users.forEach(user => {
+              if (!classes.includes(user.class)) {
+                classes.push(user.class)
+              }
+            })
+
+            // Filter users and create class button
+            let classUser = {
+              id: '',
+              name: '',
+              balance: '',
+              class: ''
             }
-          })
-
-          // Filter users and create class button
-          let classUser = {
-            id: '',
-            name: '',
-            balance: '',
-            class: ''
-          }
-          if (this.state.class !== 'All') {
-            users = users.filter(user => user.class === this.state.class)
-            classUser.id = `${this.state.class} Class`
-            classUser.name = `${this.state.class} Class`
-            classUser.class = this.state.class
-          }
-          return (
-            <Container>
-              <Header>
-                <CstmLink to='/' onClick={() => localStorage.removeItem('filterItem')}>
-                  <Icon icon='home' />
-                </CstmLink>
-                <h3>Dashboard</h3>
-                <Select
-                  onChange={this.handleFilterChange}
-                  value={this.state.class}>
-                  <option value='All'>All</option>
-                  {classes.map((clas, i) => (
-                    <option value={clas} key={i}>
-                      {clas.charAt(0).toUpperCase() + clas.slice(1)}
-                    </option>
-                  ))}
-                </Select>
-              </Header>
-              <UserList>
-                {/* If class is filtered show class button */}
-                {this.state.class !== 'All' && <UserSummary user={classUser} />}
-                {/* List all users for current filter */}
-                {users
-                  .sort((a, b) => {
-                    return a.name > b.name ? 1 : -1
-                  })
-                  .map(user => (
-                    <UserSummary key={user.id} user={user} />
-                  ))}
-              </UserList>
-            </Container>
-          )
-        }}
-      </Query>
+            if (this.state.class !== 'All') {
+              users = users.filter(user => user.class === this.state.class)
+              classUser.id = `${this.state.class} Class`
+              classUser.name = `${this.state.class} Class`
+              classUser.class = this.state.class
+            }
+            return (
+              <Body>
+                <Header>
+                  <CstmLink
+                    to='/'
+                    onClick={() => localStorage.removeItem('filterItem')}
+                  >
+                    <Icon icon='home' />
+                  </CstmLink>
+                  <h3>Dashboard</h3>
+                  <Select
+                    onChange={this.handleFilterChange}
+                    value={this.state.class}
+                  >
+                    <option value='All'>All</option>
+                    {classes.map((clas, i) => (
+                      <option value={clas} key={i}>
+                        {clas.charAt(0).toUpperCase() + clas.slice(1)}
+                      </option>
+                    ))}
+                  </Select>
+                </Header>
+                <UserList>
+                  {/* If class is filtered show class button */}
+                  {this.state.class !== 'All' && (
+                    <UserSummary user={classUser} />
+                  )}
+                  {/* List all users for current filter */}
+                  {users
+                    .sort((a, b) => {
+                      return a.name > b.name ? 1 : -1
+                    })
+                    .map(user => (
+                      <UserSummary key={user.id} user={user} />
+                    ))}
+                </UserList>
+              </Body>
+            )
+          }}
+        </Query>
+      </Container>
     )
   }
 }
@@ -104,26 +117,26 @@ export default Dashboard
 
 const Container = styled.div`
   background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: calc(10px + 2vmin);
   color: white;
+  font-size: calc(10px + 2vmin);
+`
+const Apollo = styled.div`
+  height: 100vh;
+  padding: 50px;
 `
 const Header = styled.div`
-  display: flex;
-  justify-content: flex-start;
   align-items: center;
-  width: 75%;
+  display: flex;
   height: 9vh;
+  justify-content: flex-start;
+  width: 75%;
 `
 const Select = styled.select`
   background: #444;
-  border-top: 0;
-  border-right: 0;
-  border-left: 0;
   border-bottom: 1px solid white;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
   color: white;
   font-size: 1rem;
   margin-left: 15px;
@@ -134,23 +147,29 @@ const Select = styled.select`
     text-transform: uppercase;
   }
 `
+const Body = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+`
 const UserList = styled.div`
+  align-content: flex-start;
   border: 1px solid white;
   border-radius: 15px;
   display: flex;
   flex-wrap: wrap;
+  height: 84vh;
   justify-content: space-evenly;
-  align-content: flex-start;
+  overflow: auto;
   padding: 2vh;
   width: 75%;
-  height: 84vh;
-  overflow: auto;
 `
 const CstmLink = styled(Link)`
-  text-decoration: none;
   color: white;
-  vertical-align: middle;
   margin-right: 15px;
+  text-decoration: none;
+  vertical-align: middle;
   :hover {
     color: #bbb;
   }
