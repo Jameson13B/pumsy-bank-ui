@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Query } from 'react-apollo'
 import { USER_DASHBOARD_QUERY } from '../Apollo/Query'
 import { USER_CHANGE_SUBSCRIPTION } from '../Apollo/Subscriptions'
-import UserSummary from '../Components/DashboardUserSummary'
+import UserSummary from '../Components/Dashboard/DashboardUserSummary'
 import Icon from '../Components/Icon'
 import styled from 'styled-components'
 
@@ -36,11 +36,17 @@ class Dashboard extends Component {
       <Container>
         <Query query={USER_DASHBOARD_QUERY}>
           {({ loading, error, data, subscribeToMore }) => {
-            if (loading) return <Apollo>👀 Fetching 👀</Apollo>
+            if (loading)
+              return (
+                <Apollo>
+                  <span role='img'>👀</span> Fetching <span role='img'>👀</span>
+                </Apollo>
+              )
             if (error)
               return (
                 <Apollo>
-                  💩 Error: Check your internet and try refreshing
+                  <span role='img'>💩</span> Error: Check your internet and try
+                  refreshing
                 </Apollo>
               )
 

@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { Query } from 'react-apollo'
 import { USER_PROFILE } from '../Apollo/Query'
-import PosBtnList from '../Components/ProfilePosBtnList'
-import NegBtnList from '../Components/ProfileNegBtnList'
+import PosBtnList from '../Components/Profile/ProfilePosBtnList'
+import NegBtnList from '../Components/Profile/ProfileNegBtnList'
 import Icon from '../Components/Icon'
 
 class Profile extends Component {
@@ -61,11 +61,17 @@ class Profile extends Component {
       <Container>
         <Query query={USER_PROFILE} variables={{ id }}>
           {({ loading, error, data, refetch }) => {
-            if (loading) return <Apollo>👀 Fetching 👀</Apollo>
+            if (loading)
+              return (
+                <Apollo>
+                  <span role='img'>👀</span> Fetching <span role='img'>👀</span>
+                </Apollo>
+              )
             if (error)
               return (
                 <Apollo>
-                  💩 Error: Check your internet and try refreshing
+                  <span role='img'>💩</span> Error: Check your internet and try
+                  refreshing
                 </Apollo>
               )
 

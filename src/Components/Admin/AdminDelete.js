@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import Icon from '../Components/Icon'
+import Icon from '../Icon'
 import { Mutation, Query } from 'react-apollo'
-import { DELETE_USER } from '../Apollo/Mutation'
-import { USER_DASHBOARD_QUERY } from '../Apollo/Query'
-import { USER_CHANGE_SUBSCRIPTION } from '../Apollo/Subscriptions'
+import { DELETE_USER } from '../../Apollo/Mutation'
+import { USER_DASHBOARD_QUERY } from '../../Apollo/Query'
+import { USER_CHANGE_SUBSCRIPTION } from '../../Apollo/Subscriptions'
 import { confirmAlert } from 'react-confirm-alert'
 import './alert.css'
 
@@ -73,7 +73,8 @@ class AdminDelete extends Component {
                             data.deleteUser.name
                           }`
                         })
-                      }}>
+                      }}
+                    >
                       {deleteUser => (
                         <CustomIcon
                           icon='delete'

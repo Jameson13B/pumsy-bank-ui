@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Icon from '../Components/Icon'
-import ItemMgmt from '../Components/StoreItemMgmt'
-import PurchaseLog from '../Components/StorePurchaseLog'
+import ItemMgmt from '../Components/Store/StoreItemMgmt'
+import PurchaseLog from '../Components/Store/StorePurchaseLog'
 
 class Store extends Component {
   constructor(props) {

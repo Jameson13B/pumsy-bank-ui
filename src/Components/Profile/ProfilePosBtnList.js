@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Mutation } from 'react-apollo'
-import { ADD_POINTS } from '../Apollo/Mutation'
-import { USER_DASHBOARD_QUERY } from '../Apollo/Query';
-import AddNew from '../Components/DashboardAddNew'
+import { ADD_POINTS } from '../../Apollo/Mutation'
+import { USER_DASHBOARD_QUERY } from '../../Apollo/Query'
+import AddNew from '../Dashboard/DashboardAddNew'
 
 class PosBtnList extends Component {
   constructor(props) {
@@ -43,7 +43,9 @@ class PosBtnList extends Component {
                   points: button.points
                 }}
                 update={(cache, { data: { addPoints } }) => {
-                  let { users } = cache.readQuery({ query: USER_DASHBOARD_QUERY });
+                  let { users } = cache.readQuery({
+                    query: USER_DASHBOARD_QUERY
+                  })
                   users.forEach(user => {
                     if (user.id === addPoints.id) {
                       user.balance = addPoints.balance
@@ -51,10 +53,11 @@ class PosBtnList extends Component {
                   })
                   cache.writeQuery({
                     query: USER_DASHBOARD_QUERY,
-                    data: { users },
-                  });
+                    data: { users }
+                  })
                 }}
-                key={i}>
+                key={i}
+              >
                 {addPoints => (
                   <Button
                     data-index={i}
@@ -66,7 +69,8 @@ class PosBtnList extends Component {
                     onClick={() => {
                       addPoints()
                       this.props.history.replace('/dashboard')
-                    }}>
+                    }}
+                  >
                     <p>{button.title}</p>
                     <p>{button.points}</p>
                   </Button>

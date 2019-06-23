@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Mutation, Query } from 'react-apollo'
-import { CHANGE_PASSWORD } from '../Apollo/Mutation'
-import { USER_ADMIN } from '../Apollo/Query'
+import { CHANGE_PASSWORD } from '../../Apollo/Mutation'
+import { USER_ADMIN } from '../../Apollo/Query'
 
 class AdminPassword extends Component {
   constructor(props) {
@@ -49,7 +49,8 @@ class AdminPassword extends Component {
                     key={user.id}
                     id={user.id}
                     name={user.name}
-                    onClick={this.handleUserSelect}>
+                    onClick={this.handleUserSelect}
+                  >
                     <Initials>{this.getInitials(user.name)}</Initials>
                     <Name>{user.name.substring(0, 20)}</Name>
                   </User>
@@ -65,9 +66,8 @@ class AdminPassword extends Component {
             id: this.state.id,
             password: this.state.password
           }}
-          onCompleted={data =>
-            this.setState({ feedback: data.changePassword })
-          }>
+          onCompleted={data => this.setState({ feedback: data.changePassword })}
+        >
           {(changePassword, { data }) => (
             <Form
               onSubmit={e => {
@@ -75,7 +75,8 @@ class AdminPassword extends Component {
                 changePassword()
                 this.setState({ password: '' })
               }}
-              autoComplete='off'>
+              autoComplete='off'
+            >
               <h1>{this.state.name}</h1>
               {this.state.feedback ? (
                 <Feedback>{this.state.feedback}</Feedback>

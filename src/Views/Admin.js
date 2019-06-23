@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Icon from '../Components/Icon'
-import AdminCreate from '../Components/AdminCreate'
-import AdminUpdate from '../Components/AdminUpdate'
-import AdminDelete from '../Components/AdminDelete'
-import AdminPassword from '../Components/AdminPassword'
+import AdminCreate from '../Components/Admin/AdminCreate'
+import AdminUpdate from '../Components/Admin/AdminUpdate'
+import AdminDelete from '../Components/Admin/AdminDelete'
+import AdminPassword from '../Components/Admin/AdminPassword'
 
 class Admin extends Component {
   constructor(props) {

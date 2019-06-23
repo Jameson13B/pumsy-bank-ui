@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Mutation, Query } from 'react-apollo'
-import { UPDATE_USER } from '../Apollo/Mutation'
-import { USER_ADMIN, USER_DASHBOARD_QUERY } from '../Apollo/Query'
+import { UPDATE_USER } from '../../Apollo/Mutation'
+import { USER_ADMIN, USER_DASHBOARD_QUERY } from '../../Apollo/Query'
 
 class AdminUpdate extends Component {
   constructor(props) {
@@ -53,7 +53,8 @@ class AdminUpdate extends Component {
                     key={user.id}
                     id={user.id}
                     name={user.name}
-                    onClick={() => this.handleUserSelect(user)}>
+                    onClick={() => this.handleUserSelect(user)}
+                  >
                     <Initials>{this.getInitials(user.name)}</Initials>
                     <Name>{user.name.substring(0, 20)}</Name>
                   </User>
@@ -83,7 +84,7 @@ class AdminUpdate extends Component {
             })
           }}
           update={(cache, { data: { updateUser } }) => {
-            let { users } = cache.readQuery({ query: USER_DASHBOARD_QUERY });
+            let { users } = cache.readQuery({ query: USER_DASHBOARD_QUERY })
             users.forEach(user => {
               if (user.id === updateUser.id) {
                 user = updateUser
@@ -91,9 +92,10 @@ class AdminUpdate extends Component {
             })
             cache.writeQuery({
               query: USER_DASHBOARD_QUERY,
-              data: { users },
-            });
-          }}>
+              data: { users }
+            })
+          }}
+        >
           {updateUser => (
             <Form
               onSubmit={e => {
@@ -101,7 +103,8 @@ class AdminUpdate extends Component {
                 updateUser()
                 this.setState({ name: '', email: '', password: '' })
               }}
-              autoComplete='none'>
+              autoComplete='none'
+            >
               <Input
                 name='name'
                 type='text'

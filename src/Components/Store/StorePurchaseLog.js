@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Query } from 'react-apollo'
-import { PURCHASE_LOG } from '../Apollo/Query'
-import { PURCHASE_LOG_SUBSCRIPTION } from '../Apollo/Subscriptions'
+import { PURCHASE_LOG } from '../../Apollo/Query'
+import { PURCHASE_LOG_SUBSCRIPTION } from '../../Apollo/Subscriptions'
 import moment from 'moment-timezone'
 
 class PurchaseLog extends React.Component {
