@@ -28,76 +28,83 @@ class Reporting extends Component {
             end: moment(this.state.end)
           }
     return (
-      <Query query={USER_LOG} variables={variables}>
-        {({ loading, error, data }) => {
-          if (loading) return <div>Fetching</div>
-          if (error) return <div>Error: Refresh Page</div>
+      <Container>
+        <Query query={USER_LOG} variables={variables}>
+          {({ loading, error, data }) => {
+            if (loading) return <Apollo>👀 Fetching 👀</Apollo>
+            if (error)
+              return (
+                <Apollo>
+                  💩 Error: Check your internet and try refreshing
+                </Apollo>
+              )
 
-          let logs = data.userLog
-          let users = data.users
+            let logs = data.userLog
+            let users = data.users
 
-          return (
-            <Container>
-              {/* Header */}
-              <Header>
-                <CstmLink to='/'>
-                  <Icon icon='home' />
-                </CstmLink>
-                <h3>Reporting</h3>
-                {/* Student Dropodown */}
-                <Select
-                  onChange={e => this.setState({ student: e.target.value })}
-                  value={this.state.student}
-                >
-                  <option value=''>Select Student</option>
-                  {users.map(user => (
-                    <option value={user.id} key={user.id}>
-                      {user.name}
-                    </option>
-                  ))}
-                </Select>
-                {/* Start Date */}
-                <DateLabel>Start: </DateLabel>
-                <DateInput
-                  type='date'
-                  name='start'
-                  value={this.state.start}
-                  onChange={this.handleInputChange}
-                />
-                {/* End Date */}
-                <DateLabel>End: </DateLabel>
-                <DateInput
-                  type='date'
-                  name='end'
-                  value={this.state.end}
-                  onChange={this.handleInputChange}
-                />
-              </Header>
-              {/* Body */}
-              <Body>
-                {/* If log is empty return 'nothing to show' */}
-                {logs.length === 0 && <Entry>Nothing to show yet...</Entry>}
-                {logs.map(log => {
-                  const date = moment(log.createdAt)
-                  // If there is only the default change return 'select student'
-                  return !log.change ? (
-                    <Entry key={log.id}>
-                      <p>Select Student Above</p>
-                    </Entry>
-                  ) : (
-                    // Else if there is a log with change, create an Entry for each
-                    <Entry key={log.id}>
-                      <p>{log.change}</p>
-                      <p>{log.description}</p>
-                      <p>{date.tz('America/Boise').format('l LT')}</p>
-                    </Entry>
-                  )
-                })}
-              </Body>
-            </Container>
-          )
-        }}
-      </Query>
+            return (
+              <View>
+                {/* Header */}
+                <Header>
+                  <CstmLink to='/'>
+                    <Icon icon='home' />
+                  </CstmLink>
+                  <h3>Reporting</h3>
+                  {/* Student Dropodown */}
+                  <Select
+                    onChange={e => this.setState({ student: e.target.value })}
+                    value={this.state.student}
+                  >
+                    <option value=''>Select Student</option>
+                    {users.map(user => (
+                      <option value={user.id} key={user.id}>
+                        {user.name}
+                      </option>
+                    ))}
+                  </Select>
+                  {/* Start Date */}
+                  <DateLabel>Start: </DateLabel>
+                  <DateInput
+                    type='date'
+                    name='start'
+                    value={this.state.start}
+                    onChange={this.handleInputChange}
+                  />
+                  {/* End Date */}
+                  <DateLabel>End: </DateLabel>
+                  <DateInput
+                    type='date'
+                    name='end'
+                    value={this.state.end}
+                    onChange={this.handleInputChange}
+                  />
+                </Header>
+                {/* Body */}
+                <Body>
+                  {/* If log is empty return 'nothing to show' */}
+                  {logs.length === 0 && <Entry>Nothing to show yet...</Entry>}
+                  {logs.map(log => {
+                    const date = moment(log.createdAt)
+                    // If there is only the default change return 'select student'
+                    return !log.change ? (
+                      <Entry key={log.id}>
+                        <p>Select Student Above</p>
+                      </Entry>
+                    ) : (
+                      // Else if there is a log with change, create an Entry for each
+                      <Entry key={log.id}>
+                        <p>{log.change}</p>
+                        <p>{log.description}</p>
+                        <p>{date.tz('America/Boise').format('l LT')}</p>
+                      </Entry>
+                    )
+                  })}
+                </Body>
+              </View>
+            )
+          }}
+        </Query>
+      </Container>
     )
   }
 }
@@ -106,12 +113,18 @@ export default Reporting
 
 const Container = styled.div`
   background-color: #282c34;
+  font-size: calc(10px + 2vmin);
+  color: white;
+`
+const Apollo = styled.div`
+  height: 100vh;
+  padding: 50px;
+`
+const View = styled.div`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 `
 const Header = styled.div`
   display: flex;
