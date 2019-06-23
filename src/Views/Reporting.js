@@ -50,6 +50,13 @@ class Reporting extends Component {
                     💩
                   </span>{' '}
                   Error: Check your internet and try refreshing
+                  <br />
+                  <CstmLink
+                    to='/'
+                    onClick={() => localStorage.removeItem('filterItem')}
+                  >
+                    <Icon icon='home' />
+                  </CstmLink>
                 </Apollo>
               )
 

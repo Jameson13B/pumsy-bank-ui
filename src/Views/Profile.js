@@ -82,6 +82,10 @@ class Profile extends Component {
                     💩
                   </span>{' '}
                   Error: Check your internet and try refreshing
+                  <br />
+                  <CstmLink to='/dashboard'>
+                    <Icon icon='arrow_back' />
+                  </CstmLink>
                 </Apollo>
               )
 

@@ -37,6 +37,16 @@ class ItemMgmt extends Component {
   handleInputChange = e => this.setState({ [e.target.name]: e.target.value })
   handleUpdateSelect = (title, description, amount, id) =>
     this.setState({ title, description, amount, id, creating: false })
+  clearState = list => {
+    this.setState({
+      items: list,
+      title: '',
+      description: '',
+      amount: '',
+      id: '',
+      feedback: null
+    })
+  }
   deleteItem = (index, id) => {
     const list = this.state.items.slice()
     list.splice(index, 1)
@@ -44,14 +54,7 @@ class ItemMgmt extends Component {
       .doc(id)
       .delete()
       .then(() => {
-        this.setState({
-          items: list,
-          title: '',
-          description: '',
-          amount: '',
-          id: '',
-          feedback: null
-        })
+        this.clearState(list)
       })
       .catch(feedback => this.setState({ feedback }))
   }
@@ -62,14 +65,7 @@ class ItemMgmt extends Component {
     db.collection('inventory')
       .add(newItem)
       .then(res => {
-        this.setState({
-          items: list,
-          title: '',
-          description: '',
-          amount: '',
-          id: '',
-          feedback: null
-        })
+        this.clearState(list)
       })
       .catch(feedback => this.setState({ feedback }))
   }
@@ -87,6 +83,7 @@ class ItemMgmt extends Component {
           description: '',
           amount: '',
           id: '',
+          feedback: null,
           creating: true
         })
       )

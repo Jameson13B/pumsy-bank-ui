@@ -33,8 +33,27 @@ class PurchaseLog extends React.Component {
     return (
       <Query query={PURCHASE_LOG} variables={{ start, end }}>
         {({ loading, error, data, subscribeToMore }) => {
-          if (loading) return <div>Fetching</div>
-          if (error) return <div>Error: Refresh Page</div>
+          if (loading)
+            return (
+              <Apollo>
+                <span role='img' aria-label='looking'>
+                  👀
+                </span>{' '}
+                Fetching{' '}
+                <span role='img' aria-label='looking'>
+                  👀
+                </span>
+              </Apollo>
+            )
+          if (error)
+            return (
+              <Apollo>
+                <span role='img' aria-label='poop'>
+                  💩
+                </span>{' '}
+                Error: Check your internet and try refreshing
+              </Apollo>
+            )
 
           this._subscribeToPurchaseChanges(subscribeToMore)
 
@@ -77,6 +96,10 @@ const Container = styled.div`
   padding: 15px;
   height: 89%;
   overflow: auto;
+`
+const Apollo = styled.div`
+  height: 100vh;
+  padding: 50px;
 `
 const Entry = styled.div`
   display: flex;

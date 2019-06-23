@@ -41,8 +41,27 @@ class AdminUpdate extends Component {
         {/* List of Users */}
         <Query query={USER_ADMIN}>
           {({ loading, error, data }) => {
-            if (loading) return <div>Fetching</div>
-            if (error) return <div>Error</div>
+            if (loading)
+              return (
+                <Apollo>
+                  <span role='img' aria-label='looking'>
+                    👀
+                  </span>{' '}
+                  Fetching{' '}
+                  <span role='img' aria-label='looking'>
+                    👀
+                  </span>
+                </Apollo>
+              )
+            if (error)
+              return (
+                <Apollo>
+                  <span role='img' aria-label='poop'>
+                    💩
+                  </span>{' '}
+                  Error: Check your internet and try refreshing
+                </Apollo>
+              )
 
             let users = data.users
 
@@ -151,6 +170,10 @@ const Container = styled.div`
   padding: 20px;
   display: flex;
   height: 89%;
+`
+const Apollo = styled.div`
+  height: 100vh;
+  padding: 50px;
 `
 const List = styled.ul`
   flex: 1.25;

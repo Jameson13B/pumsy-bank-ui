@@ -49,8 +49,27 @@ class AdminDelete extends Component {
         {/* List of Users */}
         <Query query={USER_DASHBOARD_QUERY}>
           {({ loading, error, data, subscribeToMore }) => {
-            if (loading) return <div>Fetching</div>
-            if (error) return <div>Error</div>
+            if (loading)
+              return (
+                <Apollo>
+                  <span role='img' aria-label='looking'>
+                    👀
+                  </span>{' '}
+                  Fetching{' '}
+                  <span role='img' aria-label='looking'>
+                    👀
+                  </span>
+                </Apollo>
+              )
+            if (error)
+              return (
+                <Apollo>
+                  <span role='img' aria-label='poop'>
+                    💩
+                  </span>{' '}
+                  Error: Check your internet and try refreshing
+                </Apollo>
+              )
 
             this._subscribeToUserChanges(subscribeToMore)
 
@@ -116,6 +135,10 @@ export default AdminDelete
 const Container = styled.div`
   padding: 20px;
   height: 89%;
+`
+const Apollo = styled.div`
+  height: 100vh;
+  padding: 50px;
 `
 const List = styled.ul`
   display: flex;
