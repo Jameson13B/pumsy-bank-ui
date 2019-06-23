@@ -23,36 +23,38 @@ class Profile extends Component {
     if (id.includes('Class')) {
       return (
         <Container>
-          <Header>
-            <CstmLink to='/dashboard'>
-              <Icon icon='arrow_back' />
-            </CstmLink>
-            <h3>Profile</h3>
-          </Header>
-          <Body>
-            <Name>{id}</Name>
-            <Id>{id}</Id>
-            <Item>Add/Remove points for the entire {id}</Item>
-            <BtnPanel>
-              <Btn
-                onClick={() => this.handleTogglePos(true)}
-                className={this.state.positive && 'active'}
-              >
-                Positive
-              </Btn>
-              <Btn
-                onClick={() => this.handleTogglePos(false)}
-                className={!this.state.positive && 'active'}
-              >
-                Needs Improvement
-              </Btn>
-            </BtnPanel>
-            {this.state.positive ? (
-              <PosBtnList id={id} history={this.props.history} />
-            ) : (
-              <NegBtnList id={id} history={this.props.history} />
-            )}
-          </Body>
+          <View>
+            <Header>
+              <CstmLink to='/dashboard'>
+                <Icon icon='arrow_back' />
+              </CstmLink>
+              <h3>Profile</h3>
+            </Header>
+            <Body>
+              <Name>{id}</Name>
+              <Id>{id}</Id>
+              <Item>Add/Remove points for the entire {id}</Item>
+              <BtnPanel>
+                <Btn
+                  onClick={() => this.handleTogglePos(true)}
+                  className={this.state.positive && 'active'}
+                >
+                  Positive
+                </Btn>
+                <Btn
+                  onClick={() => this.handleTogglePos(false)}
+                  className={!this.state.positive && 'active'}
+                >
+                  Needs Improvement
+                </Btn>
+              </BtnPanel>
+              {this.state.positive ? (
+                <PosBtnList id={id} history={this.props.history} />
+              ) : (
+                <NegBtnList id={id} history={this.props.history} />
+              )}
+            </Body>
+          </View>
         </Container>
       )
     }
@@ -64,14 +66,22 @@ class Profile extends Component {
             if (loading)
               return (
                 <Apollo>
-                  <span role='img'>👀</span> Fetching <span role='img'>👀</span>
+                  <span role='img' aria-label='looking'>
+                    👀
+                  </span>{' '}
+                  Fetching{' '}
+                  <span role='img' aria-label='looking'>
+                    👀
+                  </span>
                 </Apollo>
               )
             if (error)
               return (
                 <Apollo>
-                  <span role='img'>💩</span> Error: Check your internet and try
-                  refreshing
+                  <span role='img' aria-label='poop'>
+                    💩
+                  </span>{' '}
+                  Error: Check your internet and try refreshing
                 </Apollo>
               )
 

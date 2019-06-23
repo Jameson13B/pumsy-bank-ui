@@ -31,11 +31,25 @@ class Reporting extends Component {
       <Container>
         <Query query={USER_LOG} variables={variables}>
           {({ loading, error, data }) => {
-            if (loading) return <Apollo>👀 Fetching 👀</Apollo>
+            if (loading)
+              return (
+                <Apollo>
+                  <span role='img' aria-label='looking'>
+                    👀
+                  </span>{' '}
+                  Fetching{' '}
+                  <span role='img' aria-label='looking'>
+                    👀
+                  </span>
+                </Apollo>
+              )
             if (error)
               return (
                 <Apollo>
-                  💩 Error: Check your internet and try refreshing
+                  <span role='img' aria-label='poop'>
+                    💩
+                  </span>{' '}
+                  Error: Check your internet and try refreshing
                 </Apollo>
               )
 

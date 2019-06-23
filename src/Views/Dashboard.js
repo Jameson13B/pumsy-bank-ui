@@ -39,14 +39,22 @@ class Dashboard extends Component {
             if (loading)
               return (
                 <Apollo>
-                  <span role='img'>👀</span> Fetching <span role='img'>👀</span>
+                  <span role='img' aria-label='looking'>
+                    👀
+                  </span>{' '}
+                  Fetching{' '}
+                  <span role='img' aria-label='looking'>
+                    👀
+                  </span>
                 </Apollo>
               )
             if (error)
               return (
                 <Apollo>
-                  <span role='img'>💩</span> Error: Check your internet and try
-                  refreshing
+                  <span role='img' aria-label='poop'>
+                    💩
+                  </span>{' '}
+                  Error: Check your internet and try refreshing
                 </Apollo>
               )
 
