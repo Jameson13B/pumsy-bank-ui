@@ -34,8 +34,18 @@ class Profile extends Component {
             <Id>{id}</Id>
             <Item>Add/Remove points for the entire {id}</Item>
             <BtnPanel>
-              <Btn onClick={() => this.handleTogglePos(true)} className={this.state.positive && 'active'}>Positive</Btn>
-              <Btn onClick={() => this.handleTogglePos(false)} className={!this.state.positive && 'active'}>Needs Improvement</Btn>
+              <Btn
+                onClick={() => this.handleTogglePos(true)}
+                className={this.state.positive && 'active'}
+              >
+                Positive
+              </Btn>
+              <Btn
+                onClick={() => this.handleTogglePos(false)}
+                className={!this.state.positive && 'active'}
+              >
+                Needs Improvement
+              </Btn>
             </BtnPanel>
             {this.state.positive ? (
               <PosBtnList id={id} history={this.props.history} />
@@ -48,40 +58,57 @@ class Profile extends Component {
     }
     // If a profile is for a student:
     return (
-      <Query query={USER_PROFILE} variables={{ id }}>
-        {({ loading, error, data, refetch }) => {
-          if (loading) return <div>Fetching</div>
-          if (error) return <div>Error</div>
+      <Container>
+        <Query query={USER_PROFILE} variables={{ id }}>
+          {({ loading, error, data, refetch }) => {
+            if (loading) return <Apollo>👀 Fetching 👀</Apollo>
+            if (error)
+              return (
+                <Apollo>
+                  💩 Error: Check your internet and try refreshing
+                </Apollo>
+              )
 
-          const user = data.user
+            const user = data.user
 
-          return (
-            <Container>
-              <Header>
-                <CstmLink to='/dashboard'>
-                  <Icon icon='arrow_back' />
-                </CstmLink>
-                <h3>Profile</h3>
-              </Header>
-              <Body>
-                <Name>{user.name}</Name>
-                <Id>{user.id}</Id>
-                <Item>Balance: {user.balance}</Item>
-                <Item>{user.email}</Item>
-                <BtnPanel>
-                  <Btn onClick={() => this.handleTogglePos(true)} className={this.state.positive && 'active'}>Positive</Btn>
-                  <Btn onClick={() => this.handleTogglePos(false)} className={!this.state.positive && 'active'}>Needs Improvement</Btn>
-                </BtnPanel>
-                {this.state.positive ? (
-                  <PosBtnList id={user.id} history={this.props.history} />
-                ) : (
-                  <NegBtnList id={user.id} history={this.props.history} />
-                )}
-              </Body>
-            </Container>
-          )
-        }}
-      </Query>
+            return (
+              <View>
+                <Header>
+                  <CstmLink to='/dashboard'>
+                    <Icon icon='arrow_back' />
+                  </CstmLink>
+                  <h3>Profile</h3>
+                </Header>
+                <Body>
+                  <Name>{user.name}</Name>
+                  <Id>{user.id}</Id>
+                  <Item>Balance: {user.balance}</Item>
+                  <Item>{user.email}</Item>
+                  <BtnPanel>
+                    <Btn
+                      onClick={() => this.handleTogglePos(true)}
+                      className={this.state.positive && 'active'}
+                    >
+                      Positive
+                    </Btn>
+                    <Btn
+                      onClick={() => this.handleTogglePos(false)}
+                      className={!this.state.positive && 'active'}
+                    >
+                      Needs Improvement
+                    </Btn>
+                  </BtnPanel>
+                  {this.state.positive ? (
+                    <PosBtnList id={user.id} history={this.props.history} />
+                  ) : (
+                    <NegBtnList id={user.id} history={this.props.history} />
+                  )}
+                </Body>
+              </View>
+            )
+          }}
+        </Query>
+      </Container>
     )
   }
 }
@@ -90,12 +117,18 @@ export default Profile
 
 const Container = styled.div`
   background-color: #282c34;
+  font-size: calc(10px + 2vmin);
+  color: white;
+`
+const Apollo = styled.div`
+  height: 100vh;
+  padding: 50px;
+`
+const View = styled.div`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 `
 const Header = styled.div`
   display: flex;
