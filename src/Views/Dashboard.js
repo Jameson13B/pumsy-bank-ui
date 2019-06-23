@@ -69,7 +69,7 @@ class Dashboard extends Component {
               classUser.class = this.state.class
             }
             return (
-              <Body>
+              <View>
                 <Header>
                   <CstmLink
                     to='/'
@@ -104,7 +104,7 @@ class Dashboard extends Component {
                       <UserSummary key={user.id} user={user} />
                     ))}
                 </UserList>
-              </Body>
+              </View>
             )
           }}
         </Query>
@@ -123,6 +123,12 @@ const Container = styled.div`
 const Apollo = styled.div`
   height: 100vh;
   padding: 50px;
+`
+const View = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 `
 const Header = styled.div`
   align-items: center;
@@ -146,12 +152,6 @@ const Select = styled.select`
   option {
     text-transform: uppercase;
   }
-`
-const Body = styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
 `
 const UserList = styled.div`
   align-content: flex-start;
