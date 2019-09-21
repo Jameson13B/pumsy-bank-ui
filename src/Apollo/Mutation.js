@@ -17,6 +17,16 @@ const REMOVE_POINTS = gql`
     }
   }
 `
+const ADD_POINTS_BY_CLASS = gql`
+  mutation($class: String!, $title: String!, $points: Int!) {
+    addPointsByClass(class: $class, description: $title, points: $points)
+  }
+`
+const REMOVE_POINTS_BY_CLASS = gql`
+  mutation($class: String!, $title: String!, $points: Int!) {
+    removePointsByClass(class: $class, description: $title, points: $points)
+  }
+`
 const CREATE_USER = gql`
   mutation(
     $name: String!
@@ -73,6 +83,8 @@ const CHANGE_PASSWORD = gql`
 export {
   ADD_POINTS,
   REMOVE_POINTS,
+  ADD_POINTS_BY_CLASS,
+  REMOVE_POINTS_BY_CLASS,
   CREATE_USER,
   UPDATE_USER,
   DELETE_USER,

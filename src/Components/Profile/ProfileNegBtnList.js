@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Mutation } from 'react-apollo'
-import { REMOVE_POINTS } from '../../Apollo/Mutation'
+import { REMOVE_POINTS, REMOVE_POINTS_BY_CLASS } from '../../Apollo/Mutation'
 import { USER_DASHBOARD_QUERY } from '../../Apollo/Query'
 import AddNew from '../Dashboard/DashboardAddNew'
 
@@ -29,19 +29,33 @@ class NegBtnList extends Component {
   handleListUpdate = list => {
     this.setState({ buttons: list })
   }
+  getVariables = button => {
+    if (this.props.id.includes('Class')) {
+      return {
+        class: this.props.id.split(' ')[0],
+        title: button.title,
+        points: button.points
+      }
+    } else {
+      return {
+        id: this.props.id,
+        title: button.title,
+        points: button.points
+      }
+    }
+  }
   render() {
+    const mutation = this.props.id.includes('Class')
+      ? REMOVE_POINTS_BY_CLASS
+      : REMOVE_POINTS
     return (
       <Container>
         <List>
           {this.state.buttons.map((button, i) => {
             return (
               <Mutation
-                mutation={REMOVE_POINTS}
-                variables={{
-                  id: this.props.id,
-                  title: button.title,
-                  points: button.points
-                }}
+                mutation={mutation}
+                variables={this.getVariables(button)}
                 update={(cache, { data: { removePoints } }) => {
                   let { users } = cache.readQuery({
                     query: USER_DASHBOARD_QUERY
