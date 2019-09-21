@@ -26,11 +26,11 @@ class AdminCreate extends Component {
           password: this.state.password,
           class: this.state.class
         }}
-        onCompleted={data =>
+        onCompleted={data => {
           this.setState({
-            feedback: `Succeessfully created: ${data.createUser.user.name}`
+            feedback: `Succeess: ${data.createUser.user.name} created`
           })
-        }
+        }}
         update={(cache, { data: { createUser } }) => {
           let { users } = cache.readQuery({ query: USER_DASHBOARD_QUERY })
           users.push(createUser.user)
@@ -44,6 +44,14 @@ class AdminCreate extends Component {
           <Container
             onSubmit={e => {
               e.preventDefault()
+              if (
+                !this.state.name ||
+                !this.state.email ||
+                !this.state.password ||
+                !this.state.class
+              ) {
+                return this.setState({ feedback: 'Error: All fields required' })
+              }
               createUser()
               this.setState({ name: '', email: '', password: '', class: '' })
             }}
