@@ -15,7 +15,7 @@ import { getMainDefinition } from 'apollo-utilities'
 require('dotenv').config()
 // Create Websocket URI
 const wsLink = new WebSocketLink({
-  uri: `ws://${process.env.REACT_APP_GRAPHQL_URL}`,
+  uri: `wss://${process.env.REACT_APP_GRAPHQL_URL}`,
   options: {
     reconnect: true
   }
