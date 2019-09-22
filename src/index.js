@@ -15,14 +15,14 @@ import { getMainDefinition } from 'apollo-utilities'
 require('dotenv').config()
 // Create Websocket URI
 const wsLink = new WebSocketLink({
-  uri: `ws://localhost:4000`,
+  uri: `ws://${process.env.REACT_APP_GRAPHQL_URL}`,
   options: {
     reconnect: true
   }
 })
 // Create Main URI
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000'
+  uri: `https://${process.env.REACT_APP_GRAPHQL_URL}`
 })
 // Server link based off operation
 const link = split(
