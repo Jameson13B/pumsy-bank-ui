@@ -6,13 +6,6 @@ import { PURCHASE_LOG_SUBSCRIPTION } from '../../Apollo/Subscriptions'
 import moment from 'moment-timezone'
 
 class PurchaseLog extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      date: new Date().toISOString().slice(0, 10)
-    }
-  }
-
   _subscribeToPurchaseChanges = subscribeToMore => {
     subscribeToMore({
       document: PURCHASE_LOG_SUBSCRIPTION,
@@ -27,9 +20,13 @@ class PurchaseLog extends React.Component {
   }
 
   render() {
-    const date = new Date().toISOString().slice(0, 10)
-    const start = moment(date)
-    const end = moment(date).add(1, 'day')
+    const start = moment()
+      .subtract(1, 'day')
+      .format()
+    const end = moment()
+      .add(1, 'day')
+      .format()
+
     return (
       <Query query={PURCHASE_LOG} variables={{ start, end }}>
         {({ loading, error, data, subscribeToMore }) => {
@@ -64,23 +61,25 @@ class PurchaseLog extends React.Component {
               {/* <Body> */}
               {/* If log is empty return 'nothing to show' */}
               {logs.length === 0 && <Entry>Nothing to show yet...</Entry>}
-              {logs.map(log => {
-                const date = moment(log.createdAt)
-                // If there is only the default change return 'select student'
-                return !log.change ? (
-                  <Entry key={log.id}>
-                    <p>Select Student Above</p>
-                  </Entry>
-                ) : (
-                  // Else if there is a log with change, create an Entry for each
-                  <Entry key={log.id}>
-                    <p>{log.change}</p>
-                    <p>{log.description}</p>
-                    <p>{log.postedBy.name}</p>
-                    <p>{date.tz('America/Boise').format('MMM Do, LT')}</p>
-                  </Entry>
-                )
-              })}
+              {logs
+                .sort((a, b) => (a.createdAt - b.createdAt ? 1 : -1))
+                .map(log => {
+                  const date = moment(log.createdAt)
+                  // If there is only the default change return 'select student'
+                  return !log.change ? (
+                    <Entry key={log.id}>
+                      <p>Select Student Above</p>
+                    </Entry>
+                  ) : (
+                    // Else if there is a log with change, create an Entry for each
+                    <Entry key={log.id}>
+                      <p>{log.change}</p>
+                      <p>{log.description}</p>
+                      <p>{log.postedBy.name}</p>
+                      <p>{date.tz('America/Boise').format('MMM Do, LT')}</p>
+                    </Entry>
+                  )
+                })}
               {/* </Body> */}
             </Container>
           )
