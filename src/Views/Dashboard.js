@@ -70,11 +70,9 @@ class Dashboard extends Component {
             let users = data.users
             // Create list for filter
             let classes = []
-            users.forEach(user => {
-              if (!classes.includes(user.class)) {
-                classes.push(user.class)
-              }
-            })
+            users.forEach(
+              user => !classes.includes(user.class) && classes.push(user.class)
+            )
 
             // Filter users and create class button
             let classUser = {

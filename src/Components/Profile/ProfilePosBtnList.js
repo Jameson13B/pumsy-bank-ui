@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Mutation } from 'react-apollo'
-import { ADD_POINTS } from '../../Apollo/Mutation'
+import { ADD_POINTS, ADD_POINTS_BY_CLASS } from '../../Apollo/Mutation'
 import { USER_DASHBOARD_QUERY } from '../../Apollo/Query'
 import AddNew from '../Dashboard/DashboardAddNew'
 
@@ -29,19 +29,33 @@ class PosBtnList extends Component {
   handleListUpdate = list => {
     this.setState({ buttons: list })
   }
+  getVariables = button => {
+    if (this.props.id.includes('Class')) {
+      return {
+        class: this.props.id.split(' ')[0],
+        title: button.title,
+        points: button.points
+      }
+    } else {
+      return {
+        id: this.props.id,
+        title: button.title,
+        points: button.points
+      }
+    }
+  }
   render() {
+    const mutation = this.props.id.includes('Class')
+      ? ADD_POINTS_BY_CLASS
+      : ADD_POINTS
     return (
       <Container>
         <List>
           {this.state.buttons.map((button, i) => {
             return (
               <Mutation
-                mutation={ADD_POINTS}
-                variables={{
-                  id: this.props.id,
-                  title: button.title,
-                  points: button.points
-                }}
+                mutation={mutation}
+                variables={this.getVariables(button)}
                 update={(cache, { data: { addPoints } }) => {
                   let { users } = cache.readQuery({
                     query: USER_DASHBOARD_QUERY
