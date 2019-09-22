@@ -3,13 +3,32 @@ import styled from 'styled-components'
 import { Mutation } from 'react-apollo'
 import { ADD_POINTS, ADD_POINTS_BY_CLASS } from '../../Apollo/Mutation'
 import { USER_DASHBOARD_QUERY } from '../../Apollo/Query'
+import { database as db } from '../../firebase'
 import AddNew from '../Dashboard/DashboardAddNew'
 
 class PosBtnList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      buttons: JSON.parse(localStorage.getItem('PosBtnList')) || []
+      buttons: []
+    }
+  }
+  componentDidMount() {
+    if (this.state.buttons.length === 0) {
+      db.collection('positive')
+        .get()
+        .then(querySnapshot => {
+          let buttons = []
+          querySnapshot.forEach(doc => {
+            const data = doc.data()
+            data.id = doc.id
+            buttons.push(data)
+          })
+          // Sort buttons point amount
+          buttons.sort((a, b) => (a.points > b.points ? 1 : -1))
+          this.setState({ buttons })
+        })
+        .catch(feedback => this.setState({ feedback }))
     }
   }
   handleLongPress = e => {
