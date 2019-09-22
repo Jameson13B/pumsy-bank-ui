@@ -79,15 +79,17 @@ class NegBtnList extends Component {
                   let { users } = cache.readQuery({
                     query: USER_DASHBOARD_QUERY
                   })
-                  users.forEach(user => {
-                    if (user.id === removePoints.id) {
-                      user.balance = removePoints.balance
-                    }
-                  })
-                  cache.writeQuery({
-                    query: USER_DASHBOARD_QUERY,
-                    data: { users }
-                  })
+                  if (removePoints !== undefined) {
+                    users.forEach(user => {
+                      if (user.id === removePoints.id) {
+                        user.balance = removePoints.balance
+                      }
+                    })
+                    cache.writeQuery({
+                      query: USER_DASHBOARD_QUERY,
+                      data: { users }
+                    })
+                  }
                 }}
                 key={i}
               >
