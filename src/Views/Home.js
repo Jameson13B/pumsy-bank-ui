@@ -11,7 +11,7 @@ class Home extends Component {
   render() {
     return (
       <Container>
-        <Title>Pumsy Bank System</Title>
+        <Title>Party Points Teacher Page</Title>
         <BtnPanel>
           <IconBtn>
             <CstmLink to='/dashboard'>
@@ -39,9 +39,6 @@ class Home extends Component {
           </IconBtn>
         </BtnPanel>
         <br />
-        <span style={{ fontSize: '1rem', padding: '15px' }}>
-          By Atomic10 Studios
-        </span>
       </Container>
     )
   }
