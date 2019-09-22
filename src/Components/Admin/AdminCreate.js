@@ -44,12 +44,7 @@ class AdminCreate extends Component {
           <Container
             onSubmit={e => {
               e.preventDefault()
-              if (
-                !this.state.name ||
-                !this.state.email ||
-                !this.state.password ||
-                !this.state.class
-              ) {
+              if (!this.state.name || !this.state.class) {
                 return this.setState({ feedback: 'Error: All fields required' })
               }
               createUser()
